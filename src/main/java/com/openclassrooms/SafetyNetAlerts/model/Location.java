@@ -1,11 +1,17 @@
 package com.openclassrooms.SafetyNetAlerts.model;
+import com.openclassrooms.SafetyNetAlerts.model.Person;
 
 public class Location {
+	private String firstName;
+	private String lastName;
 	private String address;
 	private String city;
 	private Integer zip;
+	private String phone;
+	private String email;
 
 	public Location(String address, String city, Integer zip) {
+		Person person = new Person(firstName, lastName, address, city, zip, phone, email);
 		this.address = address;
 		this.city = city;
 		this.zip = zip;
