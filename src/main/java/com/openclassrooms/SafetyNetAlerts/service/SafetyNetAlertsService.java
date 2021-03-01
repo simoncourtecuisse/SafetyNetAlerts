@@ -67,6 +67,7 @@ public class SafetyNetAlertsService {
 			System.out.println(lc);
 		}
 		return locations;
+		
 	}
 //	private static List<MedicalRecord> extractMedicalRecordsFromJson(JsonArray medicalRecordsAsJson) {
 //
