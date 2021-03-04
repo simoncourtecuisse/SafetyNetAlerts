@@ -1,17 +1,12 @@
 package com.openclassrooms.SafetyNetAlerts.model;
-import com.openclassrooms.SafetyNetAlerts.model.Person;
+
 
 public class Location {
-	private String firstName;
-	private String lastName;
 	private String address;
 	private String city;
 	private Integer zip;
-	private String phone;
-	private String email;
 
 	public Location(String address, String city, Integer zip) {
-		Person person = new Person(firstName, lastName, address, city, zip, phone, email);
 		this.address = address;
 		this.city = city;
 		this.zip = zip;
@@ -41,5 +36,37 @@ public class Location {
 	public void setZip(Integer zip) {
 		this.zip = zip;
 	}
+
+
+	@Override
+	public String toString() {
+		return "Location [address=" + address + ", city=" + city + ", zip=" + zip + "]";
+	}
+
+	@Override
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+
+        if (!(obj instanceof Location)) {
+            return false;
+        }
+
+        Location other = (Location) obj;
+        return (!address.equals(other.address) && !city.equals(other.city) && !zip.equals(other.zip)) ;
+
+    }
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((address == null) ? 0 : address.hashCode());
+		result = prime * result + ((city == null) ? 0 : city.hashCode());
+		result = prime * result + ((zip == null) ? 0 : zip.hashCode());
+		return result;
+	}
+
 
 }

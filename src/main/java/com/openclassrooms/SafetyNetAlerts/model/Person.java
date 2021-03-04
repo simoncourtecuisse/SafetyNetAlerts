@@ -4,9 +4,7 @@ public class Person {
 
 	private final String firstName;
 	private final String lastName;
-	private String address;
-	private String city;
-	private Integer zip;
+	private Location location;
 	private String phone;
 	private String email;
 	private MedicalRecord medicalRecord;
@@ -16,9 +14,7 @@ public class Person {
 
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.address = address;
-		this.city = city;
-		this.zip = zip;
+		this.location = new Location(address, city, zip);
 		this.phone = phone;
 		this.email = email;
 	}
@@ -31,28 +27,20 @@ public class Person {
 		this.medicalRecord = medicalRecord;
 	}
 
-	public String getAddress() {
-		return address;
+	public String getFirstName() {
+		return firstName;
 	}
 
-	public void setAddress(String address) {
-		this.address = address;
+	public String getLastName() {
+		return lastName;
 	}
 
-	public String getCity() {
-		return city;
+	public Location getLocation() {
+		return location;
 	}
 
-	public void setCity(String city) {
-		this.city = city;
-	}
-
-	public Integer getZip() {
-		return zip;
-	}
-
-	public void setZip(Integer zip) {
-		this.zip = zip;
+	public void setLocation(Location location) {
+		this.location = location;
 	}
 
 	public String getPhone() {
@@ -71,18 +59,11 @@ public class Person {
 		this.email = email;
 	}
 
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-
 	@Override
 	public String toString() {
-		return "Person [firstName=" + firstName + ", lastName=" + lastName + ", address=" + address + ", city=" + city
-				+ ", zip=" + zip + ", phone=" + phone + ", email=" + email + "]";
+		return "Person [email=" + email + ", firstName=" + firstName + ", lastName=" + lastName + ", location="
+				+ location + ", medicalRecord=" + medicalRecord + ", phone=" + phone + "]";
 	}
 
+	
 }

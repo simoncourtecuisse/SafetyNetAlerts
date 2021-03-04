@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import com.openclassrooms.SafetyNetAlerts.model.FireStation;
 import com.openclassrooms.SafetyNetAlerts.model.Location;
+import com.openclassrooms.SafetyNetAlerts.model.MedicalRecord;
 import com.openclassrooms.SafetyNetAlerts.model.Person;
 
 @Service
@@ -69,25 +70,25 @@ public class SafetyNetAlertsService {
 		return locations;
 		
 	}
-//	private static List<MedicalRecord> extractMedicalRecordsFromJson(JsonArray medicalRecordsAsJson) {
-//
-//		List<MedicalRecord> medicalRecords = new ArrayList<>();
-//		for (JsonValue medicalRecord : medicalRecordsAsJson) {
-//			String firstName = ((JsonObject) medicalRecord).getString("firstName");
-//			String lastName = ((JsonObject) medicalRecord).getString("lastName");
-//			String birthdate = ((JsonObject) medicalRecord).getString("birthdate");
-//
-//			List<Medication> medications = extractMedicationsFromMedicalRecord(medicalRecordsAsJson);
-//			List<Allergy> allergies = extractAllergiesFromMedicalRecord(medicalRecordsAsJson);
-//
-//			MedicalRecord mr = new MedicalRecord(firstName, lastName, birthdate, medications, allergies);
-//			medicalRecords.add(mr);
-//			Person.setMedicalRecord();
-//			System.out.println(mr);
-//		}
-//		return medicalRecords;
-//	}
-//
+	private static List<MedicalRecord> extractMedicalRecordsFromJson(JsonArray medicalRecordsAsJson) {
+
+		List<MedicalRecord> medicalRecords = new ArrayList<>();
+		for (JsonValue medicalRecord : medicalRecordsAsJson) {
+			String firstName = ((JsonObject) medicalRecord).getString("firstName");
+			String lastName = ((JsonObject) medicalRecord).getString("lastName");
+			String birthDate = ((JsonObject) medicalRecord).getString("birthDate");
+			String medications = ((JsonObject) medicalRecord).getString("medications");
+			String allergies = ((JsonObject) medicalRecord).getString("allergies");
+		
+			
+			MedicalRecord mr = new MedicalRecord(firstName, lastName, birthDate, medications, allergies);
+			medicalRecords.add(mr);
+			Person.setMedicalRecord();
+			System.out.println(mr);
+		}
+		return medicalRecords;
+	}
+
 //	private static List<Medication> extractMedicationsFromMedicalRecord(JsonArray MedicationsFromMedicalRecord) {
 //
 //		List<Medication> medications = new ArrayList<>();
@@ -125,8 +126,7 @@ public class SafetyNetAlertsService {
 		List<Person> persons = extractPersonsFromJson(jsonObject.getJsonArray("persons"));
 		List<FireStation> firestations = extractFireStationsFromJson(jsonObject.getJsonArray("firestations"));
 		List<Location> locations = extractLocationsFromPersons(jsonObject.getJsonArray("persons"));
-		// List<MedicalRecord> medicalrecords =
-		// extractMedicalRecordsFromJson(jsonObject.getJsonArray("medicalrecords"));
+		List<MedicalRecord> medicalrecords = extractMedicalRecordsFromJson(jsonObject.getJsonArray("medicalrecords"));
 
 	}
 
