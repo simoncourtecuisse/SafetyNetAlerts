@@ -1,39 +1,22 @@
 package com.openclassrooms.SafetyNetAlerts.model;
 
 import java.util.Date;
-import java.util.List;
+
 
 public class MedicalRecord {
 
 	private final String firstName;
 	private final String lastName;
-	private final Date birthdate;
-	private List<Medication> medications;
-	private List<Allergy> allergies;
+	private final Date birthDate;
+	private String medications;
+	private String allergies;
 
-	public MedicalRecord(String firstName, String lastName, Date birthdate, List<Medication> medications,
-			List<Allergy> allergies) {
-		super();
+	public MedicalRecord(String firstName, String lastName, Date birthDate, String medications,
+			String allergies) {
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.birthdate = birthdate;
+		this.birthDate = birthDate;
 		this.medications = medications;
-		this.allergies = allergies;
-	}
-
-	public List<Medication> getMedications() {
-		return medications;
-	}
-
-	public void setMedications(List<Medication> medications) {
-		this.medications = medications;
-	}
-
-	public List<Allergy> getAllergies() {
-		return allergies;
-	}
-
-	public void setAllergies(List<Allergy> allergies) {
 		this.allergies = allergies;
 	}
 
@@ -45,7 +28,25 @@ public class MedicalRecord {
 		return lastName;
 	}
 
-	public Date getBirthdate() {
-		return birthdate;
+	public Date getBirthDate() {
+		return birthDate;
 	}
+
+	public String getMedications() {
+		return medications;
+	}
+
+	public void setMedications(String medications) {
+		this.medications = medications;
+	}
+
+	public String getAllergies() {
+		return allergies;
+	}
+
+	public void setAllergies(String allergies) {
+		this.allergies = allergies;
+	}
+
+	
 }
