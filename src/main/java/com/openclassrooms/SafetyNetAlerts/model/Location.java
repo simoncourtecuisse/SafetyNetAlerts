@@ -54,7 +54,7 @@ public class Location {
         }
 
         Location other = (Location) obj;
-        return (!address.equals(other.address) && !city.equals(other.city) && !zip.equals(other.zip)) ;
+        return (address.equals(other.address) && city.equals(other.city) && zip.equals(other.zip)) ;
 
     }
 

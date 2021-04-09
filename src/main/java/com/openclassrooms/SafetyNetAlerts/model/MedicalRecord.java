@@ -3,21 +3,21 @@ package com.openclassrooms.SafetyNetAlerts.model;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.Date;
+import java.util.List;
 
 
 public class MedicalRecord {
 
-	private final String firstName;
-	private final String lastName;
-	private final Date birthDate;
-	private String medications;
-	private String allergies;
+	private String firstName;
+	private String lastName;
 
-	public MedicalRecord(String firstName, String lastName, Date birthDate, String medications,
-			String allergies) {
+	private List<String> medications;
+	private List<String> allergies;
+
+	public MedicalRecord(String firstName, String lastName, Date birthdate, List<String> medications,
+	List<String> allergies) {
 		this.firstName = firstName;
 		this.lastName = lastName;
-		this.birthDate = birthDate;
 		this.medications = medications;
 		this.allergies = allergies;
 	}
@@ -29,35 +29,26 @@ public class MedicalRecord {
 	public String getLastName() {
 		return lastName;
 	}
-
-	public Date getBirthDate() {
-		return birthDate;
-	}
-
-	public String getMedications() {
+	
+	public List getMedications() {
 		return medications;
 	}
 
-	public void setMedications(String medications) {
+	public void setMedications(List<String> medications) {
 		this.medications = medications;
 	}
 
-	public String getAllergies() {
+	public List getAllergies() {
 		return allergies;
 	}
 
-	public void setAllergies(String allergies) {
+	public void setAllergies(List<String> allergies) {
 		this.allergies = allergies;
 	}
+	
+	
 
-	public class AgeCalculator{
-		public int calculateAge(LocalDate birthDate, LocalDate currentDate) {
-			if ((birthDate != null) && (currentDate != null)) {
-				return Period.between(birthDate, currentDate).getYears();
-			} else {
-				return 0;
-			}
-		}
-	}
+
+
 	
 }

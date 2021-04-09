@@ -2,8 +2,13 @@ package com.openclassrooms.SafetyNetAlerts.service;
 
 import java.io.FileReader;
 import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+import java.util.Locale;
 
 import javax.annotation.PostConstruct;
 import javax.json.Json;
@@ -68,65 +73,82 @@ public class SafetyNetAlertsService {
 			System.out.println(lc);
 		}
 		return locations;
-		
+
 	}
-	private static List<MedicalRecord> extractMedicalRecordsFromJson(JsonArray medicalRecordsAsJson) {
+
+	private static List<MedicalRecord> extractMedicalRecordsFromJson(JsonArray medicalRecordsAsJson, List<Person> persons)
+			throws ParseException {
 
 		List<MedicalRecord> medicalRecords = new ArrayList<>();
 		for (JsonValue medicalRecord : medicalRecordsAsJson) {
 			String firstName = ((JsonObject) medicalRecord).getString("firstName");
 			String lastName = ((JsonObject) medicalRecord).getString("lastName");
-			String birthDate = ((JsonObject) medicalRecord).getString("birthDate");
-			String medications = ((JsonObject) medicalRecord).getString("medications");
-			String allergies = ((JsonObject) medicalRecord).getString("allergies");
-		
-			
-			MedicalRecord mr = new MedicalRecord(firstName, lastName, birthDate, medications, allergies);
-			medicalRecords.add(mr);
-			Person.setMedicalRecord();
-			System.out.println(mr);
+			String birthdate = ((JsonObject) medicalRecord).getString("birthdate");
+
+			/*for (Person person : persons) {
+				if (person.getFirstName().equals(firstName) && person.getLastName().equals(lastName)) {
+
+				person.addMedications(((JsonObject) medicalRecord).getJsonArray("medications").toString());
+				person.addAllergies(((JsonObject) medicalRecord).getJsonArray("allergies").toString());
+				person.setBirthdate(new SimpleDateFormat("MM/dd/yyyy").parse(birthdate));
+					System.out.println(person);
+					break;
+				}
+			}*/
+
+			Person matchingObject = persons.stream().
+					filter(p -> p.getFirstName().equals(firstName) && p.getLastName().equals(lastName)).
+					findAny().orElse(null);
+			matchingObject.addMedications(((JsonObject) medicalRecord).getJsonArray("medications").toString());
+			matchingObject.addAllergies(((JsonObject) medicalRecord).getJsonArray("allergies").toString());
+			matchingObject.setBirthdate(new SimpleDateFormat("MM/dd/yyyy").parse(birthdate));
+			System.out.println(matchingObject);
+
+			// DateFormat bd = DateFormat.getDateInstance(DateFormat.LONG, Locale.FRANCE);
+			//Date dayOfBirth = bd.parse(birthdate);
+
+			//Date bd = new SimpleDateFormat("MM/dd/yyyy").parse(birthdate);
+			//System.out.println(sDate1+"\t"+date1);
 		}
+
 		return medicalRecords;
 	}
 
-//	private static List<Medication> extractMedicationsFromMedicalRecord(JsonArray MedicationsFromMedicalRecord) {
-//
-//		List<Medication> medications = new ArrayList<>();
-//		for (JsonValue medication : MedicationsFromMedicalRecord) {
-//			String aznol = ((JsonObject) medication).getString("aznol");
-//
-//			Medication md = new Medication(aznol);
-//			medications.add(md);
-//			System.out.println(md);
-//		}
-//		return medications;
-//
-//	}
-//
-//	private static List<Allergy> extractAllergiesFromMedicalRecord(JsonArray AllergiesFromMedicalRecord) {
-//		List<Allergy> allergies = new ArrayList<>();
-//		for (JsonValue allergy : AllergiesFromMedicalRecord) {
-//			String shellfish = ((JsonObject) allergy).getString("shellfish");
-//
-//			Allergy al = new Allergy(shellfish);
-//			allergies.add(al);
-//			System.out.println();
-//		}
-//		return allergies;
-//	}
+
+	private static List<String> extractMedicationsFromMedicalRecord(JsonArray MedicationsFromMedicalRecord) {
+
+		List<String> medications = new ArrayList<>();
+		for (JsonValue medication : MedicationsFromMedicalRecord) {
+			String md = medication.toString();
+			medications.add(md);
+			System.out.println(md);
+		}
+		return medications;
+
+	}
+
+	private static List<String> extractAllergiesFromMedicalRecord(JsonArray AllergiesFromMedicalRecord) {
+		List<String> allergies = new ArrayList<>();
+		for (JsonValue allergy : AllergiesFromMedicalRecord) {
+			String al = allergy.toString();
+			allergies.add(al);
+			System.out.println(al);
+		}
+		return allergies;
+	}
 
 	@PostConstruct
-	public void initdata() throws IOException {
+	public void initdata() throws IOException, ParseException {
 
 		JsonReader jsonReader = Json.createReader(new FileReader(
-				"C:/Users/Simon/Desktop/FORMATION DEV JAVA/Projet 5/SafetyNetAlerts/src/main/resources/data.json"));
+				"./src/main/resources/data.json"));
 
 		JsonObject jsonObject = jsonReader.readObject();
 
 		List<Person> persons = extractPersonsFromJson(jsonObject.getJsonArray("persons"));
 		List<FireStation> firestations = extractFireStationsFromJson(jsonObject.getJsonArray("firestations"));
 		List<Location> locations = extractLocationsFromPersons(jsonObject.getJsonArray("persons"));
-		List<MedicalRecord> medicalrecords = extractMedicalRecordsFromJson(jsonObject.getJsonArray("medicalrecords"));
+		List<MedicalRecord> medicalrecords = extractMedicalRecordsFromJson(jsonObject.getJsonArray("medicalrecords"), persons);
 
 	}
 
