@@ -18,7 +18,7 @@ public class Person {
 	private List<String> allergies = new ArrayList<>();
 
 
-	private Date birthdate;
+	private LocalDate birthdate;
 
 	public Person(String firstName, String lastName, String address, String city, Integer zip, String phone,
 			String email) {
@@ -70,11 +70,11 @@ public class Person {
 		this.email = email;
 	}
 
-	public Date getBirthdate() {
+	public LocalDate getBirthdate() {
 		return birthdate;
 	}
 
-	public void setBirthdate(Date birthdate) {
+	public void setBirthdate(LocalDate birthdate) {
 		this.birthdate = birthdate;
 	}
 
@@ -98,8 +98,8 @@ public class Person {
 
 	@Override
 	public String toString() {
-		return "Person [email=" + email + ", firstName=" + firstName + ", lastName=" + lastName + ", location="
-				+ location + ", phone=" + phone + ", medications=" + medications + ", allergies=" + allergies + "]";
+		return "Person [FirstName = " + firstName + ", LastName = " + lastName + ", Birthdate = " + birthdate + ", Age = " + calculateAge(birthdate, LocalDate.now()) + ", Location = "
+				+ location + ", Phone = " + phone + ", Email = " + email + ", Medications = " + medications + ", Allergies = " + allergies + "]";
 	}
 
 

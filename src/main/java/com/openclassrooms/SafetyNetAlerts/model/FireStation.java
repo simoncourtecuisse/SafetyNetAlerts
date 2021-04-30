@@ -4,6 +4,7 @@ public class FireStation {
 
 	private String address;
 	private Integer station;
+	private Location location;
 
 	public FireStation(String address, Integer station) {
 		this.address = address;

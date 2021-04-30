@@ -1,7 +1,5 @@
 package com.openclassrooms.SafetyNetAlerts;
 
-import com.openclassrooms.SafetyNetAlerts.model.Location;
-
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
