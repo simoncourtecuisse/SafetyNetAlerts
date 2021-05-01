@@ -13,4 +13,5 @@ public interface PersonDao {
     public List<Person> findAll() throws FileNotFoundException;
     public Person savedPerson(Person person);
 
+    void addPerson(String simon, String courtecuisse);
 }
