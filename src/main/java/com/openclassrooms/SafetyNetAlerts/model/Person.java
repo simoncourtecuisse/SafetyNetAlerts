@@ -3,7 +3,6 @@ package com.openclassrooms.SafetyNetAlerts.model;
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 public class Person {
@@ -13,11 +12,7 @@ public class Person {
 	private Location location;
 	private String phone;
 	private String email;
-	private MedicalRecord medicalRecord;
-	private List<String> medications = new ArrayList<>();
-	private List<String> allergies = new ArrayList<>();
-
-
+	private MedicalRecord medicalRecord = new MedicalRecord();
 	private LocalDate birthdate;
 
 	public Person(String firstName, String lastName, String address, String city, Integer zip, String phone,
@@ -80,26 +75,29 @@ public class Person {
 
 
 	public void addMedications(String medication) {
-		medications.add(medication);
+		medicalRecord.addMedications(medication);
 	}
 
 	public void addAllergies(String allergy) {
-		allergies.add(allergy);
+		medicalRecord.addAllergies(allergy);
 	}
 
 	public int calculateAge(LocalDate birthDate, LocalDate currentDate) {
 		if ((birthDate != null) && (currentDate != null)) {
-				return Period.between(birthDate, currentDate).getYears();
-			} else {
-				return 0;
-			}
+			return Period.between(birthDate, currentDate).getYears();
+		} else {
+			return 0;
 		}
+	}
 
+	public int getAge() {
+		return calculateAge(birthdate, LocalDate.now());
+	}
 
 	@Override
 	public String toString() {
 		return "Person [FirstName = " + firstName + ", LastName = " + lastName + ", Birthdate = " + birthdate + ", Age = " + calculateAge(birthdate, LocalDate.now()) + ", Location = "
-				+ location + ", Phone = " + phone + ", Email = " + email + ", Medications = " + medications + ", Allergies = " + allergies + "]";
+				+ location + ", Phone = " + phone + ", Email = " + email + ", Medications = " + medicalRecord.getMedications() + ", Allergies = " + medicalRecord.getAllergies() + "]";
 	}
 
 

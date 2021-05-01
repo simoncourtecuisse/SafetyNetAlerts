@@ -1,26 +1,21 @@
 package com.openclassrooms.SafetyNetAlerts.controller;
 
+import com.openclassrooms.SafetyNetAlerts.dao.FireStationDao;
+import com.openclassrooms.SafetyNetAlerts.dao.MedicalRecordDao;
 import com.openclassrooms.SafetyNetAlerts.dao.PersonDao;
-import com.openclassrooms.SafetyNetAlerts.data.Extract;
 import com.openclassrooms.SafetyNetAlerts.model.FireStation;
-import com.openclassrooms.SafetyNetAlerts.model.Location;
 import com.openclassrooms.SafetyNetAlerts.model.MedicalRecord;
 import com.openclassrooms.SafetyNetAlerts.model.Person;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.annotation.PostConstruct;
-import javax.json.Json;
-import javax.json.JsonObject;
-import javax.json.JsonReader;
 import java.io.FileNotFoundException;
-import java.io.FileReader;
 import java.io.IOException;
 import java.text.ParseException;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @RestController
 public class AppController {
@@ -36,14 +31,62 @@ public class AppController {
 	@Autowired
 	private PersonDao personDao;
 
+	@Autowired
+	private FireStationDao fireStationDao;
+
+	@Autowired
+	private MedicalRecordDao medicalRecordDao;
+
 	@GetMapping(value = "/person")
 	public List<Person> allPersons() throws FileNotFoundException {
 		return personDao.findAll();
 	}
 
-	@GetMapping(value = "/")
-	public String safetyNet() {
-		return "safetyNet is working";
+	@GetMapping(value = "/personInfo")
+	public List<Person> getPerson(@RequestParam Map<String, String> queryStringParameters) throws FileNotFoundException {
+		String firstName = queryStringParameters.get("firstName");
+		String lastName = queryStringParameters.get("lastName");
+//		return personDao.findAll().stream()
+//				.filter(p -> (p.getFirstName().equals(firstName) && p.getLastName().equals(lastName)) || (p.getLastName().equals(lastName)))
+//				.collect(Collectors.toList());
+		List<Person> persons = personDao.findAll();
+		if (firstName != null && lastName != null) {
+			return persons.stream()
+					.filter(p -> (p.getFirstName().equals(firstName) && p.getLastName().equals(lastName)))
+					.collect(Collectors.toList());
+		} else {
+			return persons.stream()
+					.filter(p -> (p.getLastName().equals(lastName)))
+					.collect(Collectors.toList());
+		}
+	}
+
+
+	@GetMapping(value = "/personInfo/{id}")
+	public List<Person> getPerson(@PathVariable(value = "id") String id, @RequestParam Map<String, String> queryStringParameters) throws FileNotFoundException {
+		String[] names = id.split("-");
+		return personDao.findAll();
+	}
+
+//	@GetMapping(value = "/person/{lastname}/{firstname}")
+//	public Person getPerson(@PathVariable(value = "lastname") String lastname, @PathVariable(value = "firstname") String firstname) throws FileNotFoundException {
+//		List<Person> allPersons = personDao.findAll();
+//		for (Person p : allPersons) {
+//			if (p.getLastName().toLowerCase().equals(lastname.toLowerCase()) && p.getFirstName().toLowerCase().equals(firstname.toLowerCase())) {
+//				return p;
+//			}
+//		}
+//		return null;
+//	}
+
+	@GetMapping(value = "/firestation")
+	public List<FireStation> allFireStations() throws FileNotFoundException {
+		return fireStationDao.findAll();
+	}
+
+	@GetMapping(value = "/medicalRecord")
+	public List<MedicalRecord> allMedicalRecords() throws FileNotFoundException {
+		return personDao.findAll().stream().map(person->person.getMedicalRecord()).collect(Collectors.toList());
 	}
 
 	@PostMapping(value = "/testpost")
@@ -53,18 +96,9 @@ public class AppController {
 
 	@PostConstruct
 	public void initdata() throws IOException, ParseException {
-
-		JsonReader jsonReader = Json.createReader(new FileReader(
-				"./src/main/resources/data.json"));
-
-		JsonObject jsonObject = jsonReader.readObject();
-
-		List<Person> persons = Extract.extractPersonsFromJson();
-//		List<FireStation> firestations = Extract.extractFireStationsFromJson(jsonObject.getJsonArray("firestations"));
-//		List<Location> locations = Extract.extractLocationsFromPersons(jsonObject.getJsonArray("persons"));
-//		List<MedicalRecord> medicalrecords = Extract.extractMedicalRecordsFromJson(jsonObject.getJsonArray("medicalrecords"), persons);
-
-
+		List<Person> persons = personDao.initPersons();
+		fireStationDao.initFireStations();
+		medicalRecordDao.initMedicalRecords(persons);
 	}
 
 }

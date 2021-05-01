@@ -14,18 +14,19 @@ public class PersonDaoImpl implements PersonDao {
     private List<Person> persons;
     private Extract extract = new Extract();
 
-    public void initPersons(List<Person> persons) {
-        this.persons = persons;
+    public List<Person> initPersons() throws FileNotFoundException {
+        this.persons = extract.extractPersonsFromJson();
+        return persons;
     }
 
     @Override
-    public List<Person> findAll() throws FileNotFoundException {
-        List<Person> allPerosns = extract.extractPersonsFromJson();
-        return allPerosns;
+    public List<Person> findAll()  {
+//        List<Person> allPersons = extract.extractPersonsFromJson();
+        return persons;
     }
 
     @Override
-    public Person save(Person person) {
+    public Person savedPerson(Person person) {
         return person;
     }
 }

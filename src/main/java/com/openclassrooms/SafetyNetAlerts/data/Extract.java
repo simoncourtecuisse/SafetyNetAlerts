@@ -69,10 +69,10 @@ public class Extract {
 //        return persons;
 //    }
 
-    public static List<FireStation> extractFireStationsFromJson(JsonArray firestationsAsJson) {
+    public static List<FireStation> extractFireStationsFromJson() {
 
         List<FireStation> firestations = new ArrayList<>();
-        for (JsonValue firestation : firestationsAsJson) {
+        for (JsonValue firestation : jsonObject.getJsonArray("firestations")) {
             String address = ((JsonObject) firestation).getString("address");
             String stationAsString = ((JsonObject) firestation).getString("station");
 
@@ -99,11 +99,11 @@ public class Extract {
 
     }
 
-    public static List<MedicalRecord> extractMedicalRecordsFromJson(JsonArray medicalRecordsAsJson, List<Person> persons)
+    public static List<MedicalRecord> extractMedicalRecordsFromJson(List<Person> persons)
             throws ParseException {
 
         List<MedicalRecord> medicalRecords = new ArrayList<>();
-        for (JsonValue medicalRecord : medicalRecordsAsJson) {
+        for (JsonValue medicalRecord : jsonObject.getJsonArray("medicalrecords")) {
             String firstName = ((JsonObject) medicalRecord).getString("firstName");
             String lastName = ((JsonObject) medicalRecord).getString("lastName");
             String birthdate = ((JsonObject) medicalRecord).getString("birthdate");
@@ -124,7 +124,8 @@ public class Extract {
                     findAny().orElse(null);
             matchingObject.addMedications(((JsonObject) medicalRecord).getJsonArray("medications").toString());
             matchingObject.addAllergies(((JsonObject) medicalRecord).getJsonArray("allergies").toString());
-            matchingObject.setBirthdate((LocalDate) DateTimeFormatter.ofPattern("dd-MM-yy").parse(birthdate));
+            matchingObject.setBirthdate(LocalDate.parse(birthdate, DateTimeFormatter.ofPattern("MM/dd/yyyy")));
+
             // matchingObject.setBirthdate(new SimpleDateFormat("MM/dd/yyyy").parse(birthdate));
             System.out.println(matchingObject);
 

@@ -1,52 +1,35 @@
 package com.openclassrooms.SafetyNetAlerts.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 
 public class MedicalRecord {
 
-	private String firstName;
-	private String lastName;
+	private List<String> medications = new ArrayList<>();
+	private List<String> allergies = new ArrayList<>();
 
-	private List<String> medications;
-	private List<String> allergies;
-
-	public MedicalRecord(String firstName, String lastName, Date birthdate, List<String> medications,
-	List<String> allergies) {
-		this.firstName = firstName;
-		this.lastName = lastName;
-		this.medications = medications;
-		this.allergies = allergies;
-	}
-
-	public String getFirstName() {
-		return firstName;
-	}
-
-	public String getLastName() {
-		return lastName;
-	}
-	
 	public List getMedications() {
 		return medications;
 	}
 
-	public void setMedications(List<String> medications) {
-		this.medications = medications;
+	public void addMedications(String medication) {
+		medications.add(medication);
 	}
 
 	public List getAllergies() {
 		return allergies;
 	}
 
-	public void setAllergies(List<String> allergies) {
-		this.allergies = allergies;
+	public void addAllergies(String allergy) {
+		allergies.add(allergy);
 	}
-	
-	
 
 
 
-	
+
+
+
+
 }
