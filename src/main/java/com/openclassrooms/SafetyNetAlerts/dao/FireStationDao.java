@@ -6,11 +6,15 @@ import org.springframework.stereotype.Service;
 
 import java.io.FileNotFoundException;
 import java.util.List;
+import java.util.Map;
 
 @Service
 public interface FireStationDao {
 
-    void initFireStations() throws FileNotFoundException;
+    List<FireStation> initFireStations() throws FileNotFoundException;
     public List<FireStation> findAll() throws FileNotFoundException;
     public FireStation savedFireStation(FireStation fireStation);
+
+    public FireStation deleteFireStation(FireStation fireStation);
+//    void delete(Map<String, Integer> queryStringParameters);
 }

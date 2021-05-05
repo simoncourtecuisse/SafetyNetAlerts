@@ -15,8 +15,9 @@ public class MedicalRecordDaoImpl implements MedicalRecordDao {
     private List<MedicalRecord> medicalRecords;
     private Extract extract = new Extract();
 
-    public void initMedicalRecords(List<Person> persons) throws FileNotFoundException, ParseException {
+    public List<MedicalRecord> initMedicalRecords(List<Person> persons) throws FileNotFoundException, ParseException {
         this.medicalRecords = extract.extractMedicalRecordsFromJson(persons);
+        return medicalRecords;
     }
 
     @Override
@@ -26,6 +27,7 @@ public class MedicalRecordDaoImpl implements MedicalRecordDao {
 
     @Override
     public MedicalRecord savedMedicalRecord(MedicalRecord medicalRecord) {
+        medicalRecords.add(medicalRecord);
         return medicalRecord;
     }
 }

@@ -10,7 +10,8 @@ import java.util.List;
 
 @Service
 public interface MedicalRecordDao {
-    void initMedicalRecords(List<Person> persons) throws FileNotFoundException, ParseException;
+
+    List<MedicalRecord> initMedicalRecords(List<Person> persons) throws FileNotFoundException, ParseException;
     public List<MedicalRecord> findAll() throws FileNotFoundException;
     public MedicalRecord savedMedicalRecord(MedicalRecord medicalRecord);
 }

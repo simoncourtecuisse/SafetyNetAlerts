@@ -1,10 +1,13 @@
 package com.openclassrooms.SafetyNetAlerts.model;
 
+import org.springframework.web.bind.annotation.ResponseBody;
+
 import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
 
+@ResponseBody
 public class Person {
 
 	private final String firstName;

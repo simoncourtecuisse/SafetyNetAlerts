@@ -27,11 +27,12 @@ public class PersonDaoImpl implements PersonDao {
 
     @Override
     public Person savedPerson(Person person) {
+        persons.add(person);
         return person;
     }
 
-    @Override
-    public void addPerson(String simon, String courtecuisse) {
-        persons.add(new Person("vs", "vs", "vs", "vs", 12, "vs", "vs"));
-    }
+//    @Override
+//    public void addPerson(String simon, String courtecuisse) {
+//        persons.add(new Person("vs", "vs", "vs", "vs", 12, "vs", "vs"));
+//    }
 }
