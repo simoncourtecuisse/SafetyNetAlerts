@@ -3,6 +3,7 @@ package com.openclassrooms.SafetyNetAlerts.model;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Objects;
 
 
 public class MedicalRecord {
@@ -26,10 +27,16 @@ public class MedicalRecord {
 		allergies.add(allergy);
 	}
 
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof MedicalRecord)) return false;
+		MedicalRecord that = (MedicalRecord) o;
+		return Objects.equals(medications, that.medications) && Objects.equals(allergies, that.allergies);
+	}
 
-
-
-
-
-
+	@Override
+	public int hashCode() {
+		return Objects.hash(medications, allergies);
+	}
 }

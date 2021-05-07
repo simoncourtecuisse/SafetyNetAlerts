@@ -6,6 +6,7 @@ import java.time.LocalDate;
 import java.time.Period;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @ResponseBody
 public class Person {
@@ -95,6 +96,20 @@ public class Person {
 
 	public int getAge() {
 		return calculateAge(birthdate, LocalDate.now());
+	}
+
+	// Needed for the DELETE mapping
+	@Override
+	public boolean equals(Object o) {
+		if (this == o) return true;
+		if (!(o instanceof Person)) return false;
+		Person person = (Person) o;
+		return Objects.equals(firstName, person.firstName) && Objects.equals(lastName, person.lastName);
+	}
+
+	@Override
+	public int hashCode() {
+		return Objects.hash(firstName, lastName);
 	}
 
 	@Override

@@ -30,4 +30,10 @@ public class MedicalRecordDaoImpl implements MedicalRecordDao {
         medicalRecords.add(medicalRecord);
         return medicalRecord;
     }
+
+    @Override
+    public MedicalRecord deletedMedicalRecord(MedicalRecord medicalRecord) {
+        medicalRecords.remove(medicalRecord);
+        return medicalRecord;
+    }
 }

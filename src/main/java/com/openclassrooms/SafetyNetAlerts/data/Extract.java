@@ -108,17 +108,6 @@ public class Extract {
             String lastName = ((JsonObject) medicalRecord).getString("lastName");
             String birthdate = ((JsonObject) medicalRecord).getString("birthdate");
 
-			/*for (Person person : persons) {
-				if (person.getFirstName().equals(firstName) && person.getLastName().equals(lastName)) {
-
-				person.addMedications(((JsonObject) medicalRecord).getJsonArray("medications").toString());
-				person.addAllergies(((JsonObject) medicalRecord).getJsonArray("allergies").toString());
-				person.setBirthdate(new SimpleDateFormat("MM/dd/yyyy").parse(birthdate));
-					System.out.println(person);
-					break;
-				}
-			}*/
-
             Person matchingObject = persons.stream().
                     filter(p -> p.getFirstName().equals(firstName) && p.getLastName().equals(lastName)).
                     findAny().orElse(null);

@@ -1,11 +1,7 @@
 package com.openclassrooms.SafetyNetAlerts.controller;
 
 import com.openclassrooms.SafetyNetAlerts.dao.FireStationDao;
-import com.openclassrooms.SafetyNetAlerts.dao.MedicalRecordDao;
-import com.openclassrooms.SafetyNetAlerts.dao.PersonDao;
 import com.openclassrooms.SafetyNetAlerts.model.FireStation;
-import com.openclassrooms.SafetyNetAlerts.model.MedicalRecord;
-import com.openclassrooms.SafetyNetAlerts.model.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -17,8 +13,6 @@ import java.io.IOException;
 import java.net.URI;
 import java.text.ParseException;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @RestController
 public class FireStationController {
@@ -54,18 +48,9 @@ public class FireStationController {
 
     @DeleteMapping(value = "/firestation")
     public void deleteFireStation(@RequestBody FireStation fireStation) {
-        fireStationDao.deleteFireStation(fireStation);
+        fireStationDao.deletedFireStation(fireStation);
 
     }
-//    @DeleteMapping(value = "/firestation")
-//    public void deleteFireStation(@PathVariable Map<String, Integer> queryStringParameters) {
-//        String address = String.valueOf(queryStringParameters.get("address"));
-//        Integer station = queryStringParameters.get("station");
-//
-//        fireStationDao.delete(queryStringParameters);
-//
-//    }
-
 
     @PostConstruct
     public void initdata() throws IOException, ParseException {

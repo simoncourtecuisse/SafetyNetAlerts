@@ -12,5 +12,6 @@ public interface PersonDao {
     List<Person> initPersons() throws FileNotFoundException;
     public List<Person> findAll() throws FileNotFoundException;
     public Person savedPerson(Person person);
+    public Person deletedPerson(Person person);
 
 }

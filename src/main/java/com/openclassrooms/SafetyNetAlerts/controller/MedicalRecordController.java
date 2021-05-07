@@ -39,7 +39,7 @@ public class MedicalRecordController {
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
-                .path("/{[medications]}")
+                .path("/{medications}")
                 .buildAndExpand(medicalRecordAdded.getMedications())
                 .toUri();
         return ResponseEntity.created(location).build();
@@ -50,8 +50,10 @@ public class MedicalRecordController {
         medicalRecordDao.savedMedicalRecord(medicalRecord);
     }
 
-//    @DeleteMapping(value = "/medicalRecord")
-//    public void deleteMedicalRecord(@PathVariable)
+    @DeleteMapping(value = "/medicalRecord")
+    public void deleteMedicalRecord(@RequestBody MedicalRecord medicalRecord) {
+        medicalRecordDao.deletedMedicalRecord(medicalRecord);
+    }
 
     @PostConstruct
     public void initdata() throws IOException, ParseException {

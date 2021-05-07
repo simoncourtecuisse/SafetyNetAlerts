@@ -13,6 +13,7 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URI;
 import java.text.ParseException;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -49,16 +50,26 @@ public class PersonController {
     }
 
     @GetMapping(value = "/communityEmail")
-    public List<Person> emailPerson(@PathVariable(value = "email") String email) {
+    public List<String> emailPerson(@RequestParam Map<String, String> queryStringParameters) throws FileNotFoundException {
+        String city = queryStringParameters.get("city");
 
+        List<Person> persons = personDao.findAll();
+        if (city != null) {
+            return persons.stream()
+                    .filter(p -> (p.getLocation().getCity().equals(city)))
+                    .map(p -> "FirstName = " + p.getFirstName() + ", LastName = " + p.getLastName()+ ", Email = " + p.getEmail())
+                    .collect(Collectors.toList());
+        } else {
+            return new ArrayList<>();
+        }
     }
 
-
-    @GetMapping(value = "/personInfo/{id}")
-    public List<Person> getPerson(@PathVariable(value = "id") String id, @RequestParam Map<String, String> queryStringParameters) throws FileNotFoundException {
-        String[] names = id.split("-");
-        return personDao.findAll();
-    }
+//
+//    @GetMapping(value = "/personInfo/{id}")
+//    public List<Person> getPerson(@PathVariable(value = "id") String id, @RequestParam Map<String, String> queryStringParameters) throws FileNotFoundException {
+//        String[] names = id.split("-");
+//        return personDao.findAll();
+//    }
 
     @PostMapping(value = "/person")
     public ResponseEntity<Void> addPerson(@RequestBody Person person) {
@@ -81,6 +92,9 @@ public class PersonController {
     }
 
     @DeleteMapping(value = "/person")
+    public void deletePerson(@RequestBody Person person) {
+        personDao.deletedPerson(person);
+    }
 
 
 

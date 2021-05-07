@@ -14,4 +14,5 @@ public interface MedicalRecordDao {
     List<MedicalRecord> initMedicalRecords(List<Person> persons) throws FileNotFoundException, ParseException;
     public List<MedicalRecord> findAll() throws FileNotFoundException;
     public MedicalRecord savedMedicalRecord(MedicalRecord medicalRecord);
+    public MedicalRecord deletedMedicalRecord(MedicalRecord medicalRecord);
 }

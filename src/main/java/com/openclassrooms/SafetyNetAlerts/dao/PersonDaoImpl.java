@@ -31,8 +31,10 @@ public class PersonDaoImpl implements PersonDao {
         return person;
     }
 
-//    @Override
-//    public void addPerson(String simon, String courtecuisse) {
-//        persons.add(new Person("vs", "vs", "vs", "vs", 12, "vs", "vs"));
-//    }
+    @Override
+    public Person deletedPerson(Person person) {
+        persons.remove(person);
+        return person;
+    }
+
 }

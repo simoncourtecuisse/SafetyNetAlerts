@@ -32,7 +32,7 @@ public class FireStationDaoImpl implements FireStationDao {
     }
 
     @Override
-    public FireStation deleteFireStation(FireStation fireStation) {
+    public FireStation deletedFireStation(FireStation fireStation) {
         fireStations.remove(fireStation);
         return fireStation;
     }
