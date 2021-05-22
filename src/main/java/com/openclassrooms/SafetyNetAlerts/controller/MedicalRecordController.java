@@ -31,23 +31,28 @@ public class MedicalRecordController {
     }
 
     @PostMapping(value = "/medicalRecord")
-    public ResponseEntity<Void> addMedicalRecord(@RequestBody MedicalRecord medicalRecord) {
-
-        MedicalRecord medicalRecordAdded = medicalRecordDao.savedMedicalRecord(medicalRecord);
-        if (medicalRecordAdded == null)
-            return ResponseEntity.noContent().build();
+    public ResponseEntity<Void> addMedicalRecord(@RequestBody Person person) throws FileNotFoundException {
+        List<Person> persons = personDao.findAll();
+        Person matchingMedicalRecord = persons.stream()
+                .filter(p -> (p.getFirstName().equals(person.getFirstName()) && p.getLastName().equals(person.getLastName())))
+                .findAny().orElse(null);
+        matchingMedicalRecord.setMedicalRecord(person.getMedicalRecord());
 
         URI location = ServletUriComponentsBuilder
                 .fromCurrentRequest()
                 .path("/{medications}")
-                .buildAndExpand(medicalRecordAdded.getMedications())
+                .buildAndExpand(matchingMedicalRecord.getMedicalRecord())
                 .toUri();
         return ResponseEntity.created(location).build();
     }
 
     @PutMapping(value = "/medicalRecord")
-    public void updateMedicalRecord (@RequestBody MedicalRecord medicalRecord) {
-        medicalRecordDao.savedMedicalRecord(medicalRecord);
+    public void updateMedicalRecord (@RequestBody Person person) throws FileNotFoundException {
+        List<Person> persons = personDao.findAll();
+        Person matchingMedicalRecord = persons.stream()
+                .filter(p -> (p.getFirstName().equals(person.getFirstName()) && p.getLastName().equals(person.getLastName())))
+                .findAny().orElse(null);
+        matchingMedicalRecord.setMedicalRecord((person.getMedicalRecord()));
     }
 
     @DeleteMapping(value = "/medicalRecord")

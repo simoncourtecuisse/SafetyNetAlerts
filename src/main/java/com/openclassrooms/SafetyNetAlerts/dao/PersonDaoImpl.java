@@ -1,12 +1,14 @@
 package com.openclassrooms.SafetyNetAlerts.dao;
 
 import com.openclassrooms.SafetyNetAlerts.data.Extract;
+import com.openclassrooms.SafetyNetAlerts.model.Location;
 import com.openclassrooms.SafetyNetAlerts.model.Person;
 
 import org.springframework.stereotype.Repository;
 
 import java.io.FileNotFoundException;
 import java.util.List;
+import java.util.Map;
 
 @Repository
 public class PersonDaoImpl implements PersonDao {
@@ -18,6 +20,8 @@ public class PersonDaoImpl implements PersonDao {
         this.persons = extract.extractPersonsFromJson();
         return persons;
     }
+
+
 
     @Override
     public List<Person> findAll()  {

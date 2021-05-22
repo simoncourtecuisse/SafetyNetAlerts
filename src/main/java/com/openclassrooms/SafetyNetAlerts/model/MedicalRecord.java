@@ -27,6 +27,14 @@ public class MedicalRecord {
 		allergies.add(allergy);
 	}
 
+	public void setMedications(List<String> medications) {
+		this.medications = medications;
+	}
+
+	public void setAllergies(List<String> allergies) {
+		this.allergies = allergies;
+	}
+
 	@Override
 	public boolean equals(Object o) {
 		if (this == o) return true;
