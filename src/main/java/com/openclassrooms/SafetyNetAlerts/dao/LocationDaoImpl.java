@@ -5,6 +5,7 @@ import com.openclassrooms.SafetyNetAlerts.model.Location;
 import com.openclassrooms.SafetyNetAlerts.model.Person;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
@@ -12,7 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-@Repository
+@Service
 public class LocationDaoImpl implements LocationDao {
 
     private List<Location> locations;

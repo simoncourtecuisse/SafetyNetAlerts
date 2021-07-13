@@ -8,7 +8,7 @@ import java.io.FileNotFoundException;
 import java.text.ParseException;
 import java.util.List;
 
-@Service
+
 public interface MedicalRecordDao {
 
     List<MedicalRecord> initMedicalRecords(List<Person> persons) throws FileNotFoundException, ParseException;

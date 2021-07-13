@@ -1,24 +1,35 @@
 package com.openclassrooms.SafetyNetAlerts.model;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class FireStation {
 
-	private String address;
+	private List<String> addressList = new ArrayList<>();
 	private Integer station;
 	private Location location;
 
-	public FireStation(String address, Integer station) {
-		this.address = address;
+	public FireStation(List<String> addressList, Integer station) {
+		this.addressList = addressList;
 		this.station = station;
 	}
 
-	public String getAddress() {
-		return address;
+//	public FireStation() {
+//		this.addressList = addressList;
+//		this.station = station;
+//	}
+
+	public void addAddresses(String address) {
+		addressList.add(address);
 	}
 
-	public void setAddress(String address) {
-		this.address = address;
+	public List<String> getAddressList() {
+		return addressList;
+	}
+
+	public void setAddressList(List<String> addressList) {
+		this.addressList = addressList;
 	}
 
 	public Integer getStation() {
@@ -34,20 +45,16 @@ public class FireStation {
 		if (this == o) return true;
 		if (!(o instanceof FireStation)) return false;
 		FireStation that = (FireStation) o;
-		return Objects.equals(address, that.address) && Objects.equals(station, that.station) && Objects.equals(location, that.location);
+		return Objects.equals(addressList, that.addressList) && Objects.equals(station, that.station) && Objects.equals(location, that.location);
 	}
 
 	@Override
 	public int hashCode() {
-		return Objects.hash(address, station, location);
+		return Objects.hash(addressList, station, location);
 	}
 
 	@Override
 	public String toString() {
-		return "FireStation [address=" + address + ", station=" + station + "]";
+		return "FireStation [address=" + addressList + ", station=" + station + "]";
 	}
 }
-
-//	Person matchingObject = persons.stream().
-//			filter(p -> p.getAddress(address).equals(address)).
-//			findAny().orElse(null);

@@ -1,6 +1,8 @@
 package com.openclassrooms.SafetyNetAlerts.model;
 
 
+import java.util.Objects;
+
 public class Location {
 	private String address;
 	private String city;
@@ -44,7 +46,7 @@ public class Location {
 	}
 
 	@Override
-    public boolean equals(Object obj) {
+    final public boolean equals(Object obj) {
         if (this == obj) {
             return true;
         }
@@ -54,12 +56,13 @@ public class Location {
         }
 
         Location other = (Location) obj;
-        return (address.equals(other.address) && city.equals(other.city) && zip.equals(other.zip)) ;
+		// return (address.equals(other.address) && city.equals(other.city) && zip.equals(other.zip)) ;
+		return (Objects.equals(address, other.address) && Objects.equals(city, other.city) && Objects.equals(zip, other.zip));
 
     }
 
 	@Override
-	public int hashCode() {
+	final public int hashCode() {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((address == null) ? 0 : address.hashCode());

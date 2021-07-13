@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import java.io.FileNotFoundException;
 import java.util.List;
 
-@Service
+
 public interface LocationDao {
     List<Location> initLocations(List<Person> persons) throws FileNotFoundException;
 }

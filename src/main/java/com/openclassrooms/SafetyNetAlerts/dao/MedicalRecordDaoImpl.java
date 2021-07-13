@@ -4,12 +4,13 @@ import com.openclassrooms.SafetyNetAlerts.model.MedicalRecord;
 import com.openclassrooms.SafetyNetAlerts.data.Extract;
 import com.openclassrooms.SafetyNetAlerts.model.Person;
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
 import java.io.FileNotFoundException;
 import java.text.ParseException;
 import java.util.List;
 
-@Repository
+@Service
 public class MedicalRecordDaoImpl implements MedicalRecordDao {
 
     private List<MedicalRecord> medicalRecords;

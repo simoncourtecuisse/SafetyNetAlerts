@@ -1,21 +1,26 @@
 package com.openclassrooms.SafetyNetAlerts.data;
 
+import com.openclassrooms.SafetyNetAlerts.dao.MedicalRecordDao;
+import com.openclassrooms.SafetyNetAlerts.dao.PersonDao;
 import com.openclassrooms.SafetyNetAlerts.model.FireStation;
 import com.openclassrooms.SafetyNetAlerts.model.Location;
 import com.openclassrooms.SafetyNetAlerts.model.MedicalRecord;
 import com.openclassrooms.SafetyNetAlerts.model.Person;
-import org.springframework.stereotype.Repository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import javax.json.*;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 
+@Service
 public class Extract {
     public static JsonReader jsonReader;
 
@@ -30,26 +35,31 @@ public class Extract {
     }
     public static JsonObject jsonObject = jsonReader.readObject();
 
+    @Autowired
+    private PersonDao personDao;
+    @Autowired
+    private MedicalRecordDao medicalRecordDao;
+
     // public static List<Person> extractPersonsFromJson;
-   public static List<Person> extractPersonsFromJson() throws FileNotFoundException {
+    public static List<Person> extractPersonsFromJson() throws FileNotFoundException {
 
 
-       List<Person> persons = new ArrayList<>();
-       for (JsonValue person : jsonObject.getJsonArray("persons")) {
-           String firstName = ((JsonObject) person).getString("firstName");
-           String lastName = ((JsonObject) person).getString("lastName");
-           String address = ((JsonObject) person).getString("address");
-           String city = ((JsonObject) person).getString("city");
-           String zipAsString = ((JsonObject) person).getString("zip");
-           String phone = ((JsonObject) person).getString("phone");
-           String email = ((JsonObject) person).getString("email");
+        List<Person> persons = new ArrayList<>();
+        for (JsonValue person : jsonObject.getJsonArray("persons")) {
+            String firstName = ((JsonObject) person).getString("firstName");
+            String lastName = ((JsonObject) person).getString("lastName");
+            String address = ((JsonObject) person).getString("address");
+            String city = ((JsonObject) person).getString("city");
+            String zipAsString = ((JsonObject) person).getString("zip");
+            String phone = ((JsonObject) person).getString("phone");
+            String email = ((JsonObject) person).getString("email");
 
-           Person ps = new Person(firstName, lastName, address, city, Integer.parseInt(zipAsString), phone, email);
-           persons.add(ps);
-           System.out.println(ps);
-       }
-       return persons;
-   }
+            Person ps = new Person(firstName, lastName, address, city, Integer.parseInt(zipAsString), phone, email);
+            persons.add(ps);
+            System.out.println(ps);
+        }
+        return persons;
+    }
 //    public static List<Person> extractPersonsFromJson(JsonArray personsAsJson) {
 //
 //        List<Person> persons = new ArrayList<>();
@@ -76,11 +86,29 @@ public class Extract {
             String address = ((JsonObject) firestation).getString("address");
             String stationAsString = ((JsonObject) firestation).getString("station");
 
-            FireStation fs = new FireStation(address, Integer.parseInt(stationAsString));
+            FireStation fs = new FireStation(Collections.singletonList(address), Integer.parseInt(stationAsString));
             firestations.add(fs);
             System.out.println(fs);
+//        Map<Integer, List<String>> firestations = new HashMap();
+//        for (JsonValue firestation : jsonObject.getJsonArray("firestations")) {
+//            String address = ((JsonObject) firestation).getString("address");
+//            String stationAsString = ((JsonObject) firestation).getString("station");
+//        if (firestations.get(Integer.parseInt(stationAsString)) != null) {
+//            firestations.put(Integer.parseInt(stationAsString), Collections.singletonList(address));
+//        }
+
+
+//            FireStation fs = new FireStation();
+//            FireStation matchingObject = firestations.stream()
+//                    .filter(f -> f.getAddressList().equals(address) && f.getStation().equals(stationAsString))
+//                    .findAny().orElse(null);
+//            matchingObject.addAddresses(((JsonObject) firestation).getString("address"));
+
+//            firestations.add(matchingObject);
+//            System.out.println(matchingObject);
         }
         return firestations;
+
     }
 
     public static List<Location> extractLocationsFromPersons(JsonArray personsAsJson) {
@@ -108,9 +136,9 @@ public class Extract {
             String lastName = ((JsonObject) medicalRecord).getString("lastName");
             String birthdate = ((JsonObject) medicalRecord).getString("birthdate");
 
-            Person matchingObject = persons.stream().
-                    filter(p -> p.getFirstName().equals(firstName) && p.getLastName().equals(lastName)).
-                    findAny().orElse(null);
+            Person matchingObject = persons.stream()
+                    .filter(p -> p.getFirstName().equals(firstName) && p.getLastName().equals(lastName))
+                    .findAny().orElse(null);
             matchingObject.addMedications(((JsonObject) medicalRecord).getJsonArray("medications").toString());
             matchingObject.addAllergies(((JsonObject) medicalRecord).getJsonArray("allergies").toString());
             matchingObject.setBirthdate(LocalDate.parse(birthdate, DateTimeFormatter.ofPattern("MM/dd/yyyy")));
@@ -150,4 +178,11 @@ public class Extract {
         }
         return allergies;
     }
+
+    @PostConstruct
+    public void initdata() throws IOException, ParseException {
+        List<Person> persons = personDao.initPersons();
+        medicalRecordDao.initMedicalRecords(persons);
+    }
 }
+

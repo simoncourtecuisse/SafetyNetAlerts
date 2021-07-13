@@ -44,6 +44,11 @@ public class MedicalRecord {
 	}
 
 	@Override
+	public String toString() {
+		return "medications = " + medications + ", allergies = " + allergies;
+	}
+
+	@Override
 	public int hashCode() {
 		return Objects.hash(medications, allergies);
 	}
