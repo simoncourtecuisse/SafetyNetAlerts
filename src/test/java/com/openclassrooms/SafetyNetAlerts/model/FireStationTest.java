@@ -20,12 +20,7 @@ class FireStationTest {
 
     @Test
     void testAddAddresses() {
-        // Setup
-
-        // Run the test
-        fireStationUnderTest.addAddresses("address");
-
-        // Verify the results
+        fireStationUnderTest.setAddressList(List.of("address"));
     }
 
     @Test

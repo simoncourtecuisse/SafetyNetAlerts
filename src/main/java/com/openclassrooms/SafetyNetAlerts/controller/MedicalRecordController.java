@@ -16,7 +16,6 @@ import java.io.IOException;
 import java.net.URI;
 import java.text.ParseException;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 @RestController
@@ -29,7 +28,7 @@ public class MedicalRecordController {
 
     @GetMapping(value = "/medicalRecord")
     public List<MedicalRecord> allMedicalRecords() throws FileNotFoundException {
-        return personDao.findAll().stream().map(person->person.getMedicalRecord()).collect(Collectors.toList());
+        return personDao.findAll().stream().map(person -> person.getMedicalRecord()).collect(Collectors.toList());
     }
 
     @PostMapping(value = "/medicalRecord")
@@ -49,17 +48,26 @@ public class MedicalRecordController {
     }
 
     @PutMapping(value = "/medicalRecord")
-    public void updateMedicalRecord (@RequestBody Person person) throws FileNotFoundException {
+    public ResponseEntity<?> updateMedicalRecord(@RequestBody Person person) throws FileNotFoundException {
         List<Person> persons = personDao.findAll();
-        Person matchingMedicalRecord = persons.stream()
-                .filter(p -> (p.getFirstName().equals(person.getFirstName()) && p.getLastName().equals(person.getLastName())))
-                .findAny().orElse(null);
-        matchingMedicalRecord.setMedicalRecord((person.getMedicalRecord()));
+        if (persons == null) {
+            return new ResponseEntity<String>("null", HttpStatus.BAD_REQUEST);
+        } else {
+            Person matchingMedicalRecord = persons.stream()
+                    .filter(p -> (p.getFirstName().equals(person.getFirstName()) && p.getLastName().equals(person.getLastName())))
+                    .findAny().orElse(null);
+            matchingMedicalRecord.setMedicalRecord((person.getMedicalRecord()));
+            return new ResponseEntity<>(matchingMedicalRecord, HttpStatus.OK);
+        }
     }
 
+
     @DeleteMapping(value = "/medicalRecord")
-    public void deleteMedicalRecord(@RequestBody MedicalRecord medicalRecord) {
-        medicalRecordDao.deletedMedicalRecord(medicalRecord);
+    public ResponseEntity<?> deleteMedicalRecord(@RequestBody MedicalRecord medicalRecord) {
+        MedicalRecord medicalRecordDeleted = medicalRecordDao.deletedMedicalRecord(medicalRecord);
+        if (medicalRecordDeleted == null) {
+            return new ResponseEntity<String>("null", HttpStatus.NOT_FOUND);
+        } else return new ResponseEntity<>(medicalRecordDeleted, HttpStatus.OK);
     }
 
     @PostConstruct
