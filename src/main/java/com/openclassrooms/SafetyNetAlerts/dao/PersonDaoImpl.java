@@ -44,9 +44,13 @@ public class PersonDaoImpl implements PersonDao {
     }
 
     @Override
-    public Person deletedPerson(Person person) {
+    public boolean deletedPerson(Person person) {
+        Person matchingPerson = persons.stream()
+                .filter(p -> (p.getFirstName().equals(person.getFirstName()) && p.getLastName().equals(person.getLastName())))
+                .findAny().orElse(null);
+        if (matchingPerson == null) return false;
         persons.remove(person);
-        return person;
+        return true;
     }
 
     public List<Person> getPersonFromSameStation(Integer station) {

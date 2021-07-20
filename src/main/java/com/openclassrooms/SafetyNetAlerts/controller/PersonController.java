@@ -47,74 +47,58 @@ public class PersonController implements HealthIndicator {
     @GetMapping(value = "/person", produces = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<?> allPersons() throws FileNotFoundException {
         List<Person> person = personDao.findAll();
-        if (person == null) {
-            return new ResponseEntity<String>("null", HttpStatus.NOT_FOUND);
-        } else return new ResponseEntity<>(person, HttpStatus.OK);
+      //  (person.size() == 0)
+        return new ResponseEntity<>(person, HttpStatus.OK);
     }
 
 
     @GetMapping(value = "/personInfo")
     public ResponseEntity<?> getPerson(@RequestParam String firstName, @RequestParam String lastName) throws FileNotFoundException {
-        List<Person> persons = personDao.findAll();
-
-        if (firstName != null && lastName != null) {
-            return new ResponseEntity<>(persons.stream()
-                    .filter(p -> (p.getFirstName().equals(firstName) && p.getLastName().equals(lastName)))
-                    .collect(Collectors.toList()), HttpStatus.OK);
+        boolean badRequest = false;
+        if ((lastName == null && firstName == null) || (lastName == "")) badRequest = true ;
+        else if (lastName == null) badRequest = true;
+        if (badRequest == true) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } else {
-            return new ResponseEntity<>(persons.stream()
-                    .filter(p -> (p.getLastName().equals(lastName)))
-                    .collect(Collectors.toList()), HttpStatus.OK);
+            List<Person> persons = personDao.findAll();
+            List<Person> result = new ArrayList<>();
+            if ((lastName != null) && (firstName.isEmpty() || (firstName == null))) {
+                result = persons.stream()
+                        .filter(p -> (p.getLastName().equals(lastName)))
+                        .collect(Collectors.toList());
+            } else {
+                result = persons.stream()
+                        .filter(p -> (p.getFirstName().equals(firstName) && p.getLastName().equals(lastName)))
+                        .collect(Collectors.toList());
+            }
+            return new ResponseEntity<>(result, HttpStatus.OK);
         }
     }
-//    @GetMapping(value = "/personInfo")
-//    public List<Person> getPerson(@RequestParam Map<String, String> queryStringParameters) throws FileNotFoundException {
-//        String firstName = queryStringParameters.get("firstName");
-//        String lastName = queryStringParameters.get("lastName");
-//
-//        List<Person> persons = personDao.findAll();
-//        if (firstName != null && lastName != null) {
-//            return persons.stream()
-//                    .filter(p -> (p.getFirstName().equals(firstName) && p.getLastName().equals(lastName)))
-//                    .collect(Collectors.toList());
-//        } else {
-//            return persons.stream()
-//                    .filter(p -> (p.getLastName().equals(lastName)))
-//                    .collect(Collectors.toList());
-//        }
-//    }
 
     @GetMapping(value = "/communityEmail")
     public ResponseEntity<?> emailPerson(@RequestParam String city) throws FileNotFoundException {
         System.out.println(city);
-        List<Person> persons = personDao.findAll();
         if (city.isEmpty()) {
             return new ResponseEntity<>(new ArrayList<>(), HttpStatus.NOT_FOUND);
         } else {
+            List<Person> persons = personDao.findAll();
             System.out.println(persons);
 
             return new ResponseEntity<>(persons.stream()
                     .filter(p -> (p.getLocation().getCity().equals(city)))
                     .map(p -> "FirstName = " + p.getFirstName() + ", LastName = " + p.getLastName() + ", Email = " + p.getEmail())
                     .collect(Collectors.toList()), HttpStatus.OK);
-
         }
     }
 
 
     @PostMapping(value = "/person")
-    public ResponseEntity<Void> addPerson(@RequestBody Person person) {
+    public ResponseEntity<?> addPerson(@RequestBody Person person) {
 
         Person personAdded = personDao.savedPerson(person);
         if (personAdded == null)
             return ResponseEntity.noContent().build();
-
-        URI location = ServletUriComponentsBuilder
-                .fromCurrentRequest()
-                .path("/{firstName}")
-                .buildAndExpand(personAdded.getFirstName())
-                .toUri();
-        return ResponseEntity.created(location).build();
+        return new  ResponseEntity<>("Successful Operation", HttpStatus.CREATED);
     }
 
 //    @PutMapping(value = "/person/{lastName}/{firstName}")
@@ -128,85 +112,31 @@ public class PersonController implements HealthIndicator {
 
     @PutMapping(value = "/person")
     public ResponseEntity<?> updatePerson(@RequestBody Person person) throws FileNotFoundException {
-        List<Person> persons = personDao.findAll();
-        if (persons == null) {
-            return new ResponseEntity<>("null", HttpStatus.NOT_FOUND);
+
+        if (person == null) {
+            return new ResponseEntity<>("null", HttpStatus.BAD_REQUEST);
         } else {
+            List<Person> persons = personDao.findAll();
             Person matchingPerson = persons.stream()
                     .filter(p -> (p.getFirstName().equals(person.getFirstName()) && p.getLastName().equals(person.getLastName())))
                     .findAny().orElse(null);
-            if (person.getLocation() != null) {
-                matchingPerson.setLocation(person.getLocation());
-            }
-            if (person.getPhone() != null) {
-                matchingPerson.setPhone(person.getPhone());
-            }
-            if (person.getEmail() != null) {
-                matchingPerson.setEmail(person.getEmail());
-            }
-
-            if (person.getMedicalRecord()
-                    .getMedications().size() != 0) {
-                matchingPerson.getMedicalRecord().setMedications(person.getMedicalRecord().getMedications());
-            }
-            System.out.println(person.getMedicalRecord()
-                    .getMedications().size());
-            System.out.println(person.getMedicalRecord()
-                    .getMedications().size() != 0);
-
-            if (person.getMedicalRecord()
-                    .getAllergies().size() != 0) {
-                matchingPerson.getMedicalRecord().setAllergies(person.getMedicalRecord().getAllergies());
-            }
-
-            if (person.getBirthdate() != null) {
-                matchingPerson.setBirthdate(person.getBirthdate());
-            }
+            if (matchingPerson == null) return new ResponseEntity<>("not found", HttpStatus.NOT_FOUND);
+            matchingPerson = person;
             return new ResponseEntity<>(matchingPerson, HttpStatus.OK);
-        }
+            }
     }
-//    @PutMapping(value = "/person")
-//    public void updatePerson(@RequestBody Person person) throws FileNotFoundException {
-//        List<Person> persons = personDao.findAll();
-//        Person matchingPerson = persons.stream()
-//                .filter(p -> (p.getFirstName().equals(person.getFirstName()) && p.getLastName().equals(person.getLastName())))
-//                .findAny().orElse(null);
-//        if (person.getLocation() != null) {
-//            matchingPerson.setLocation(person.getLocation());
-//        }
-//        if (person.getPhone() != null) {
-//            matchingPerson.setPhone(person.getPhone());
-//        }
-//        if (person.getEmail() != null) {
-//            matchingPerson.setEmail(person.getEmail());
-//        }
-//
-//        if (person.getMedicalRecord()
-//                .getMedications().size() != 0) {
-//            matchingPerson.getMedicalRecord().setMedications(person.getMedicalRecord().getMedications());
-//        }
-//        System.out.println(person.getMedicalRecord()
-//                .getMedications().size());
-//        System.out.println(person.getMedicalRecord()
-//                .getMedications().size() != 0);
-//
-//        if (person.getMedicalRecord()
-//                .getAllergies().size() != 0) {
-//            matchingPerson.getMedicalRecord().setAllergies(person.getMedicalRecord().getAllergies());
-//        }
-//
-//        if (person.getBirthdate() != null) {
-//            matchingPerson.setBirthdate(person.getBirthdate());
-//        }
-//    }
 
 
         @DeleteMapping(value = "/person")
         public ResponseEntity<?> deletePerson (@RequestBody Person person){
-            Person personDeleted = personDao.deletedPerson(person);
-            if (personDeleted == null) {
-                return new ResponseEntity<>("null", HttpStatus.NOT_FOUND);
-            } else return new ResponseEntity<>(personDeleted, HttpStatus.OK);
+
+            if (person == null) {
+                return new ResponseEntity<>("null", HttpStatus.BAD_REQUEST);
+            } else {
+               // boolean personDeleted = personDao.deletedPerson(person);
+                if (personDao.deletedPerson(person)) return new ResponseEntity<>("successfull operation", HttpStatus.OK);
+                else return new ResponseEntity<>("not found", HttpStatus.NOT_FOUND);
+            }
         }
 
 

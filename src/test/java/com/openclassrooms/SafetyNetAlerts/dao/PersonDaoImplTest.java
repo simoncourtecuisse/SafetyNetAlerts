@@ -73,10 +73,10 @@ class PersonDaoImplTest {
     void testDeletedPerson() {
         // Setup
         final Person person = new Person("firstName", "lastName", "address", "city", 0, "phone", "email");
-        final Person expectedResult = new Person("firstName", "lastName", "address", "city", 0, "phone", "email");
+        final boolean expectedResult = false;
 
         // Run the test
-        final Person result = personDaoImplUnderTest.deletedPerson(person);
+        final boolean result = personDaoImplUnderTest.deletedPerson(person);
 
         // Verify the results
         assertEquals(expectedResult, result);
