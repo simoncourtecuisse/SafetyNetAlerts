@@ -1,383 +1,204 @@
 package com.openclassrooms.SafetyNetAlerts.controller;
 
-import com.openclassrooms.SafetyNetAlerts.dao.FireStationDao;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.when;
+
+import com.google.gson.JsonArray;
+import com.openclassrooms.SafetyNetAlerts.dao.FireStationDaoImpl;
 import com.openclassrooms.SafetyNetAlerts.dao.PersonDao;
 import com.openclassrooms.SafetyNetAlerts.model.FireStation;
 import com.openclassrooms.SafetyNetAlerts.model.Person;
+
+import java.io.IOException;
+import java.text.ParseException;
+
+import java.util.ArrayList;
+
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import java.io.FileNotFoundException;
-import java.util.Collections;
-import java.util.List;
-
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.mockito.Mockito.when;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
-
+@ContextConfiguration(classes = {FireStationController.class})
 @ExtendWith(SpringExtension.class)
-@WebMvcTest(FireStationController.class)
-class FireStationControllerTest {
-
+public class FireStationControllerTest {
     @Autowired
-    private MockMvc mockMvc;
+    private FireStationController fireStationController;
 
     @MockBean
-    private FireStationDao mockFireStationDao;
+    private FireStationDaoImpl fireStationDaoImpl;
+
     @MockBean
-    private PersonDao mockPersonDao;
+    private PersonDao personDao;
 
     @Test
-    void testAddFireStation() throws Exception {
-        // Setup
-        when(mockFireStationDao.savedFireStation(new FireStation(List.of("value"), 0))).thenReturn(new FireStation(List.of("value"), 0));
+    public void testInitdata() throws IOException, ParseException {
+        // TODO: This test is incomplete.
+        //   Reason: Missing observers.
+        //   Diffblue Cover was unable to create an assertion.
+        //   Add getters for the following fields or make them package-private:
+        //     FireStationController.fireStationDao
+        //     FireStationController.personDao
 
-        // Run the test
-        final MockHttpServletResponse response = mockMvc.perform(post("/firestation")
-                .content("content").contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
-                .andReturn().getResponse();
-
-        // Verify the results
-        assertEquals(HttpStatus.OK.value(), response.getStatus());
-        assertEquals("200", response.getContentAsString());
+        when(this.fireStationDaoImpl.initFireStations()).thenReturn(new ArrayList<FireStation>());
+        this.fireStationController.initdata();
     }
 
     @Test
-    void testUpdateFireStation() throws Exception {
-        // Setup
-        when(mockFireStationDao.savedFireStation(new FireStation(List.of("value"), 0))).thenReturn(new FireStation(List.of("value"), 0));
-
-        // Run the test
-        final MockHttpServletResponse response = mockMvc.perform(put("/firestation")
-                .content("content").contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
-                .andReturn().getResponse();
-
-        // Verify the results
-        assertEquals(HttpStatus.OK.value(), response.getStatus());
-        assertEquals("expectedResponse", response.getContentAsString());
+    public void testFlood() throws Exception {
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/flood");
+        ResultActions actualPerformResult = MockMvcBuilders.standaloneSetup(this.fireStationController)
+                .build()
+                .perform(requestBuilder);
+        actualPerformResult.andExpect(MockMvcResultMatchers.status().is(400));
     }
 
     @Test
-    void testDeleteFireStation() throws Exception {
-        // Setup
-        when(mockFireStationDao.deletedFireStation(new FireStation(List.of("value"), 0))).thenReturn(new FireStation(List.of("value"), 0));
-
-        // Run the test
-        final MockHttpServletResponse response = mockMvc.perform(delete("/firestation")
-                .content("content").contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
-                .andReturn().getResponse();
-
-        // Verify the results
-        assertEquals(HttpStatus.OK.value(), response.getStatus());
-        assertEquals("expectedResponse", response.getContentAsString());
+    public void testGetPersonByFireStation() throws Exception {
+        when(this.personDao.getPersonFromSameStation((Integer) any())).thenReturn(new ArrayList<Person>());
+        when(this.fireStationDaoImpl.filterResult((String[]) any(), (java.util.List<Person>) any()))
+                .thenReturn(new JsonArray(3));
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/firestation").param("station", "42");
+        MockMvcBuilders.standaloneSetup(this.fireStationController)
+                .build()
+                .perform(requestBuilder)
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
+                .andExpect(MockMvcResultMatchers.content().string("{\"adults\":0,\"childs\":0,\"person\":[]}"));
     }
 
     @Test
-    void testGetPersonByFireStation() throws Exception {
-        // Setup
-
-        // Configure PersonDao.getPersonFromSameStation(...).
-        final List<Person> personList = List.of(new Person("firstName", "lastName", "address", "city", 0, "phone", "email"));
-        when(mockPersonDao.getPersonFromSameStation(2)).thenReturn(personList);
-
-        // Run the test
-        final MockHttpServletResponse response = mockMvc.perform(get("/firestation")
-                .param("station", "2")
-                .accept(MediaType.APPLICATION_JSON))
-                .andReturn().getResponse();
-
-        // Verify the results
-        assertEquals(HttpStatus.OK.value(), response.getStatus());
-        assertEquals(personList.toString(), response.getContentAsString());
+    public void testGetPersonByFireStation2() throws Exception {
+        ArrayList<Person> personList = new ArrayList<Person>();
+        personList.add(new Person("Jane", "Doe", "42 Main St", "Oxford", 1, "4105551212", "jane.doe@example.org"));
+        when(this.personDao.getPersonFromSameStation((Integer) any())).thenReturn(personList);
+        when(this.fireStationDaoImpl.filterResult((String[]) any(), (java.util.List<Person>) any()))
+                .thenReturn(new JsonArray(3));
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/firestation").param("station", "42");
+        MockMvcBuilders.standaloneSetup(this.fireStationController)
+                .build()
+                .perform(requestBuilder)
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
+                .andExpect(MockMvcResultMatchers.content().string("{\"adults\":0,\"childs\":1,\"person\":[]}"));
     }
 
     @Test
-    void testGetPersonByFireStation_PersonDaoReturnsNoItems() throws Exception {
-        // Setup
-        when(mockPersonDao.getPersonFromSameStation(0)).thenReturn(Collections.emptyList());
-
-        // Run the test
-        final MockHttpServletResponse response = mockMvc.perform(get("/firestation")
-                .param("station", "station")
-                .accept(MediaType.APPLICATION_JSON))
-                .andReturn().getResponse();
-
-        // Verify the results
-        assertEquals(HttpStatus.OK.value(), response.getStatus());
-        assertEquals("expectedResponse", response.getContentAsString());
+    public void testGetPersonByFireStation3() throws Exception {
+        ArrayList<Person> personList = new ArrayList<Person>();
+        personList.add(new Person("Jane", "Doe", "42 Main St", "Oxford", 1, "4105551212", "jane.doe@example.org"));
+        personList.add(new Person("Jane", "Doe", "42 Main St", "Oxford", 1, "4105551212", "jane.doe@example.org"));
+        when(this.personDao.getPersonFromSameStation((Integer) any())).thenReturn(personList);
+        when(this.fireStationDaoImpl.filterResult((String[]) any(), (java.util.List<Person>) any()))
+                .thenReturn(new JsonArray(3));
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/firestation").param("station", "42");
+        MockMvcBuilders.standaloneSetup(this.fireStationController)
+                .build()
+                .perform(requestBuilder)
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
+                .andExpect(MockMvcResultMatchers.content().string("{\"adults\":0,\"childs\":2,\"person\":[]}"));
     }
 
     @Test
-    void testGetPersonByFireStation_ThrowsJsonProcessingException() throws Exception {
-        // Setup
-
-        // Configure PersonDao.getPersonFromSameStation(...).
-        final List<Person> personList = List.of(new Person("firstName", "lastName", "address", "city", 0, "phone", "email"));
-        when(mockPersonDao.getPersonFromSameStation(0)).thenReturn(personList);
-
-        // Run the test
-        final MockHttpServletResponse response = mockMvc.perform(get("/firestation")
-                .param("station", "station")
-                .accept(MediaType.APPLICATION_JSON))
-                .andReturn().getResponse();
-
-        // Verify the results
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR.value(), response.getStatus());
-        assertEquals("expectedResponse", response.getContentAsString());
+    public void testGetPersonByFireStation4() throws Exception {
+        when(this.personDao.getPersonFromSameStation((Integer) any())).thenReturn(new ArrayList<Person>());
+        when(this.fireStationDaoImpl.filterResult((String[]) any(), (java.util.List<Person>) any())).thenReturn(null);
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/firestation").param("station", "42");
+        MockMvcBuilders.standaloneSetup(this.fireStationController)
+                .build()
+                .perform(requestBuilder)
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
+                .andExpect(MockMvcResultMatchers.content().string("{\"adults\":0,\"childs\":0,\"person\":null}"));
     }
 
     @Test
-    void testPhoneAlert() throws Exception {
-        // Setup
-
-        // Configure FireStationDao.findAll(...).
-        final List<FireStation> fireStations = List.of(new FireStation(List.of("value"), 0));
-        when(mockFireStationDao.findAll()).thenReturn(fireStations);
-
-        // Configure PersonDao.getPersonFromSameStation(...).
-        final List<Person> personList = List.of(new Person("firstName", "lastName", "address", "city", 0, "phone", "email"));
-        when(mockPersonDao.getPersonFromSameStation(0)).thenReturn(personList);
-
-        // Run the test
-        final MockHttpServletResponse response = mockMvc.perform(get("/phoneAlert")
-                .param("firestation", "firestation")
-                .accept(MediaType.APPLICATION_JSON))
-                .andReturn().getResponse();
-
-        // Verify the results
-        assertEquals(HttpStatus.OK.value(), response.getStatus());
-        assertEquals("expectedResponse", response.getContentAsString());
+    public void testPhoneAlert() throws Exception {
+        when(this.personDao.getPersonFromSameStation((Integer) any())).thenReturn(new ArrayList<Person>());
+        when(this.fireStationDaoImpl.findAll()).thenReturn(new ArrayList<FireStation>());
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/phoneAlert").param("firestation", "42");
+        ResultActions actualPerformResult = MockMvcBuilders.standaloneSetup(this.fireStationController)
+                .build()
+                .perform(requestBuilder);
+        actualPerformResult.andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andExpect(MockMvcResultMatchers.content().contentType("text/plain;charset=ISO-8859-1"))
+                .andExpect(MockMvcResultMatchers.content().string("null"));
     }
 
     @Test
-    void testPhoneAlert_FireStationDaoReturnsNoItems() throws Exception {
-        // Setup
-        when(mockFireStationDao.findAll()).thenReturn(Collections.emptyList());
-
-        // Configure PersonDao.getPersonFromSameStation(...).
-        final List<Person> personList = List.of(new Person("firstName", "lastName", "address", "city", 0, "phone", "email"));
-        when(mockPersonDao.getPersonFromSameStation(0)).thenReturn(personList);
-
-        // Run the test
-        final MockHttpServletResponse response = mockMvc.perform(get("/phoneAlert")
-                .param("firestation", "firestation")
-                .accept(MediaType.APPLICATION_JSON))
-                .andReturn().getResponse();
-
-        // Verify the results
-        assertEquals(HttpStatus.OK.value(), response.getStatus());
-        assertEquals("expectedResponse", response.getContentAsString());
+    public void testPhoneAlert2() throws Exception {
+        ArrayList<Person> personList = new ArrayList<Person>();
+        personList.add(new Person("Jane", "Doe", "42 Main St", "Oxford", 1, "4105551212", "jane.doe@example.org"));
+        when(this.personDao.getPersonFromSameStation((Integer) any())).thenReturn(personList);
+        when(this.fireStationDaoImpl.findAll()).thenReturn(new ArrayList<FireStation>());
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/phoneAlert").param("firestation", "42");
+        MockMvcBuilders.standaloneSetup(this.fireStationController)
+                .build()
+                .perform(requestBuilder)
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
+                .andExpect(
+                        MockMvcResultMatchers.content().string("[\"FirstName = Jane, LastName = Doe, Phone = 4105551212\"]"));
     }
 
     @Test
-    void testPhoneAlert_FireStationDaoThrowsFileNotFoundException() throws Exception {
-        // Setup
-        when(mockFireStationDao.findAll()).thenThrow(FileNotFoundException.class);
-
-        // Configure PersonDao.getPersonFromSameStation(...).
-        final List<Person> personList = List.of(new Person("firstName", "lastName", "address", "city", 0, "phone", "email"));
-        when(mockPersonDao.getPersonFromSameStation(0)).thenReturn(personList);
-
-        // Run the test
-        final MockHttpServletResponse response = mockMvc.perform(get("/phoneAlert")
-                .param("firestation", "firestation")
-                .accept(MediaType.APPLICATION_JSON))
-                .andReturn().getResponse();
-
-        // Verify the results
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR.value(), response.getStatus());
-        assertEquals("expectedResponse", response.getContentAsString());
+    public void testPhoneAlert3() throws Exception {
+        ArrayList<Person> personList = new ArrayList<Person>();
+        personList.add(new Person("Jane", "Doe", "42 Main St", "Oxford", 1, "4105551212", "jane.doe@example.org"));
+        personList.add(new Person("Jane", "Doe", "42 Main St", "Oxford", 1, "4105551212", "jane.doe@example.org"));
+        when(this.personDao.getPersonFromSameStation((Integer) any())).thenReturn(personList);
+        when(this.fireStationDaoImpl.findAll()).thenReturn(new ArrayList<FireStation>());
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/phoneAlert").param("firestation", "42");
+        MockMvcBuilders.standaloneSetup(this.fireStationController)
+                .build()
+                .perform(requestBuilder)
+                .andExpect(MockMvcResultMatchers.status().isOk())
+                .andExpect(MockMvcResultMatchers.content().contentType("application/json"))
+                .andExpect(MockMvcResultMatchers.content()
+                        .string(
+                                "[\"FirstName = Jane, LastName = Doe, Phone = 4105551212\",\"FirstName = Jane, LastName = Doe, Phone ="
+                                        + " 4105551212\"]"));
     }
 
     @Test
-    void testPhoneAlert_PersonDaoReturnsNoItems() throws Exception {
-        // Setup
+    public void testPhoneAlert4() throws Exception {
+        when(this.personDao.getPersonFromSameStation((Integer) any())).thenReturn(new ArrayList<Person>());
 
-        // Configure FireStationDao.findAll(...).
-        final List<FireStation> fireStations = List.of(new FireStation(List.of("value"), 0));
-        when(mockFireStationDao.findAll()).thenReturn(fireStations);
-
-        when(mockPersonDao.getPersonFromSameStation(0)).thenReturn(Collections.emptyList());
-
-        // Run the test
-        final MockHttpServletResponse response = mockMvc.perform(get("/phoneAlert")
-                .param("firestation", "firestation")
-                .accept(MediaType.APPLICATION_JSON))
-                .andReturn().getResponse();
-
-        // Verify the results
-        assertEquals(HttpStatus.OK.value(), response.getStatus());
-        assertEquals("expectedResponse", response.getContentAsString());
+        ArrayList<FireStation> fireStationList = new ArrayList<FireStation>();
+        fireStationList.add(new FireStation(new ArrayList<String>(), 1));
+        when(this.fireStationDaoImpl.findAll()).thenReturn(fireStationList);
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/phoneAlert").param("firestation", "42");
+        ResultActions actualPerformResult = MockMvcBuilders.standaloneSetup(this.fireStationController)
+                .build()
+                .perform(requestBuilder);
+        actualPerformResult.andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andExpect(MockMvcResultMatchers.content().contentType("text/plain;charset=ISO-8859-1"))
+                .andExpect(MockMvcResultMatchers.content().string("null"));
     }
 
     @Test
-    void testFlood() throws Exception {
-        // Setup
+    public void testPhoneAlert5() throws Exception {
+        when(this.personDao.getPersonFromSameStation((Integer) any())).thenReturn(new ArrayList<Person>());
 
-        // Configure PersonDao.getPersonFromSameStation(...).
-        final List<Person> personList = List.of(new Person("firstName", "lastName", "address", "city", 0, "phone", "email"));
-        when(mockPersonDao.getPersonFromSameStation(0)).thenReturn(personList);
-
-        // Run the test
-        final MockHttpServletResponse response = mockMvc.perform(get("/flood")
-                .param("stations", "0")
-                .accept(MediaType.APPLICATION_JSON))
-                .andReturn().getResponse();
-
-        // Verify the results
-        assertEquals(HttpStatus.OK.value(), response.getStatus());
-        assertEquals("expectedResponse", response.getContentAsString());
-    }
-
-    @Test
-    void testFlood_PersonDaoReturnsNoItems() throws Exception {
-        // Setup
-        when(mockPersonDao.getPersonFromSameStation(0)).thenReturn(Collections.emptyList());
-
-        // Run the test
-        final MockHttpServletResponse response = mockMvc.perform(get("/flood")
-                .param("stations", "0")
-                .accept(MediaType.APPLICATION_JSON))
-                .andReturn().getResponse();
-
-        // Verify the results
-        assertEquals(HttpStatus.OK.value(), response.getStatus());
-        assertEquals("expectedResponse", response.getContentAsString());
-    }
-
-    @Test
-    void testFlood_ThrowsFileNotFoundException() throws Exception {
-        // Setup
-
-        // Configure PersonDao.getPersonFromSameStation(...).
-        final List<Person> personList = List.of(new Person("firstName", "lastName", "address", "city", 0, "phone", "email"));
-        when(mockPersonDao.getPersonFromSameStation(0)).thenReturn(personList);
-
-        // Run the test
-        final MockHttpServletResponse response = mockMvc.perform(get("/flood")
-                .param("stations", "0")
-                .accept(MediaType.APPLICATION_JSON))
-                .andReturn().getResponse();
-
-        // Verify the results
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR.value(), response.getStatus());
-        assertEquals("expectedResponse", response.getContentAsString());
-    }
-
-    @Test
-    void testFire() throws Exception {
-        // Setup
-
-        // Configure PersonDao.findAll(...).
-        final List<Person> personList = List.of(new Person("firstName", "lastName", "address", "city", 0, "phone", "email"));
-        when(mockPersonDao.findAll()).thenReturn(personList);
-
-        // Configure FireStationDao.findAll(...).
-        final List<FireStation> fireStations = List.of(new FireStation(List.of("value"), 0));
-        when(mockFireStationDao.findAll()).thenReturn(fireStations);
-
-        // Run the test
-        final MockHttpServletResponse response = mockMvc.perform(get("/fire")
-                .param("queryStringParameters", "queryStringParameters")
-                .accept(MediaType.APPLICATION_JSON))
-                .andReturn().getResponse();
-
-        // Verify the results
-        assertEquals(HttpStatus.OK.value(), response.getStatus());
-        assertEquals("expectedResponse", response.getContentAsString());
-    }
-
-    @Test
-    void testFire_PersonDaoReturnsNoItems() throws Exception {
-        // Setup
-        when(mockPersonDao.findAll()).thenReturn(Collections.emptyList());
-
-        // Configure FireStationDao.findAll(...).
-        final List<FireStation> fireStations = List.of(new FireStation(List.of("value"), 0));
-        when(mockFireStationDao.findAll()).thenReturn(fireStations);
-
-        // Run the test
-        final MockHttpServletResponse response = mockMvc.perform(get("/fire")
-                .param("queryStringParameters", "queryStringParameters")
-                .accept(MediaType.APPLICATION_JSON))
-                .andReturn().getResponse();
-
-        // Verify the results
-        assertEquals(HttpStatus.OK.value(), response.getStatus());
-        assertEquals("expectedResponse", response.getContentAsString());
-    }
-
-    @Test
-    void testFire_PersonDaoThrowsFileNotFoundException() throws Exception {
-        // Setup
-        when(mockPersonDao.findAll()).thenThrow(FileNotFoundException.class);
-
-        // Configure FireStationDao.findAll(...).
-        final List<FireStation> fireStations = List.of(new FireStation(List.of("value"), 0));
-        when(mockFireStationDao.findAll()).thenReturn(fireStations);
-
-        // Run the test
-        final MockHttpServletResponse response = mockMvc.perform(get("/fire")
-                .param("queryStringParameters", "queryStringParameters")
-                .accept(MediaType.APPLICATION_JSON))
-                .andReturn().getResponse();
-
-        // Verify the results
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR.value(), response.getStatus());
-        assertEquals("expectedResponse", response.getContentAsString());
-    }
-
-    @Test
-    void testFire_FireStationDaoReturnsNoItems() throws Exception {
-        // Setup
-
-        // Configure PersonDao.findAll(...).
-        final List<Person> personList = List.of(new Person("firstName", "lastName", "address", "city", 0, "phone", "email"));
-        when(mockPersonDao.findAll()).thenReturn(personList);
-
-        when(mockFireStationDao.findAll()).thenReturn(Collections.emptyList());
-
-        // Run the test
-        final MockHttpServletResponse response = mockMvc.perform(get("/fire")
-                .param("queryStringParameters", "queryStringParameters")
-                .accept(MediaType.APPLICATION_JSON))
-                .andReturn().getResponse();
-
-        // Verify the results
-        assertEquals(HttpStatus.OK.value(), response.getStatus());
-        assertEquals("expectedResponse", response.getContentAsString());
-    }
-
-    @Test
-    void testFire_FireStationDaoThrowsFileNotFoundException() throws Exception {
-        // Setup
-
-        // Configure PersonDao.findAll(...).
-        final List<Person> personList = List.of(new Person("firstName", "lastName", "address", "city", 0, "phone", "email"));
-        when(mockPersonDao.findAll()).thenReturn(personList);
-
-        when(mockFireStationDao.findAll()).thenThrow(FileNotFoundException.class);
-
-        // Run the test
-        final MockHttpServletResponse response = mockMvc.perform(get("/fire")
-                .param("queryStringParameters", "queryStringParameters")
-                .accept(MediaType.APPLICATION_JSON))
-                .andReturn().getResponse();
-
-        // Verify the results
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR.value(), response.getStatus());
-        assertEquals("expectedResponse", response.getContentAsString());
+        ArrayList<FireStation> fireStationList = new ArrayList<FireStation>();
+        fireStationList.add(new FireStation(new ArrayList<String>(), 1));
+        fireStationList.add(new FireStation(new ArrayList<String>(), 1));
+        when(this.fireStationDaoImpl.findAll()).thenReturn(fireStationList);
+        MockHttpServletRequestBuilder requestBuilder = MockMvcRequestBuilders.get("/phoneAlert").param("firestation", "42");
+        ResultActions actualPerformResult = MockMvcBuilders.standaloneSetup(this.fireStationController)
+                .build()
+                .perform(requestBuilder);
+        actualPerformResult.andExpect(MockMvcResultMatchers.status().isNotFound())
+                .andExpect(MockMvcResultMatchers.content().contentType("text/plain;charset=ISO-8859-1"))
+                .andExpect(MockMvcResultMatchers.content().string("null"));
     }
 }
+

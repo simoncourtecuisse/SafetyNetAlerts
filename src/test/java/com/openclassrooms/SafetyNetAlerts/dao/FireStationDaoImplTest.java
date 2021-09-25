@@ -1,6 +1,9 @@
 package com.openclassrooms.SafetyNetAlerts.dao;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.google.gson.JsonArray;
 import com.openclassrooms.SafetyNetAlerts.model.FireStation;
+import com.openclassrooms.SafetyNetAlerts.model.Person;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -87,5 +90,27 @@ class FireStationDaoImplTest {
 
         // Verify the results
         assertEquals(expectedResult, result);
+    }
+
+    @Test
+    void testFilterResult() throws Exception {
+        // Setup
+        final List<Person> personList = List.of(new Person("firstName", "lastName", "address", "city", 0, "phone", "email"));
+        final JsonArray expectedResult = new JsonArray(0);
+
+        // Run the test
+        final JsonArray result = fireStationDaoImplUnderTest.filterResult(new String[]{"value"}, personList);
+
+        // Verify the results
+        assertEquals(expectedResult, result);
+    }
+
+    @Test
+    void testFilterResult_ThrowsJsonProcessingException() {
+        // Setup
+        final List<Person> personList = List.of(new Person("firstName", "lastName", "address", "city", 0, "phone", "email"));
+
+        // Run the test
+        assertThrows(JsonProcessingException.class, () -> fireStationDaoImplUnderTest.filterResult(new String[]{"value"}, personList));
     }
 }

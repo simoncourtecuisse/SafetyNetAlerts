@@ -9,8 +9,7 @@ import java.io.FileNotFoundException;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
@@ -76,7 +75,7 @@ class PersonDaoImplTest {
         final boolean expectedResult = false;
 
         // Run the test
-        final boolean result = personDaoImplUnderTest.deletedPerson(person);
+        final boolean result = personDaoImplUnderTest.deletedPerson1(person);
 
         // Verify the results
         assertEquals(expectedResult, result);

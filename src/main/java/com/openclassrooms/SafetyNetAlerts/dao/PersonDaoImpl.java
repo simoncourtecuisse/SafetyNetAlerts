@@ -44,12 +44,15 @@ public class PersonDaoImpl implements PersonDao {
     }
 
     @Override
-    public boolean deletedPerson(Person person) {
-        Person matchingPerson = persons.stream()
-                .filter(p -> (p.getFirstName().equals(person.getFirstName()) && p.getLastName().equals(person.getLastName())))
-                .findAny().orElse(null);
-        if (matchingPerson == null) return false;
-        persons.remove(person);
+    public boolean deletedPerson1(Person person) {
+//        System.out.println("coucou");
+//        Person matchingPerson = persons.stream()
+//                .filter(p -> (p.getFirstName().equals(person.getFirstName()) && p.getLastName().equals(person.getLastName())))
+//                .findAny().orElse(null);
+//        System.out.println(matchingPerson);
+//        if (matchingPerson == null) return false;
+//        persons.remove(person);
+        System.out.println("coucou");
         return true;
     }
 

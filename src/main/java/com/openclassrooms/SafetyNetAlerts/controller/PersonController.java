@@ -55,23 +55,21 @@ public class PersonController implements HealthIndicator {
     @GetMapping(value = "/personInfo")
     public ResponseEntity<?> getPerson(@RequestParam String firstName, @RequestParam String lastName) throws FileNotFoundException {
         boolean badRequest = false;
-        if ((lastName == null && firstName == null) || (lastName == "")) badRequest = true ;
-        else if (lastName == null) badRequest = true;
+        if ((lastName == null && firstName == null)) badRequest = true ;
+        else if (lastName == null || firstName == null) badRequest = true;
         if (badRequest == true) {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         } else {
             List<Person> persons = personDao.findAll();
             List<Person> result = new ArrayList<>();
-            if ((lastName != null) && (firstName.isEmpty() || (firstName == null))) {
-                result = persons.stream()
-                        .filter(p -> (p.getLastName().equals(lastName)))
-                        .collect(Collectors.toList());
-            } else {
                 result = persons.stream()
                         .filter(p -> (p.getFirstName().equals(firstName) && p.getLastName().equals(lastName)))
                         .collect(Collectors.toList());
+                if (result.size() == 0){
+                    return new ResponseEntity<>("not found", HttpStatus.NOT_FOUND);
+                } else {
+                    return new ResponseEntity<>(result, HttpStatus.OK);
             }
-            return new ResponseEntity<>(result, HttpStatus.OK);
         }
     }
 
@@ -94,10 +92,8 @@ public class PersonController implements HealthIndicator {
 
     @PostMapping(value = "/person")
     public ResponseEntity<?> addPerson(@RequestBody Person person) {
-
-        Person personAdded = personDao.savedPerson(person);
-        if (personAdded == null)
-            return ResponseEntity.noContent().build();
+        System.out.println(person.getFirstName());
+        personDao.savedPerson(person);
         return new  ResponseEntity<>("Successful Operation", HttpStatus.CREATED);
     }
 
@@ -120,6 +116,11 @@ public class PersonController implements HealthIndicator {
             Person matchingPerson = persons.stream()
                     .filter(p -> (p.getFirstName().equals(person.getFirstName()) && p.getLastName().equals(person.getLastName())))
                     .findAny().orElse(null);
+            matchingPerson.setLocation(person.getLocation());
+            matchingPerson.setMedicalRecord(person.getMedicalRecord());
+            matchingPerson.setEmail(person.getEmail());
+            matchingPerson.setPhone(person.getPhone());
+            matchingPerson.setBirthdate(person.getBirthdate());
             if (matchingPerson == null) return new ResponseEntity<>("not found", HttpStatus.NOT_FOUND);
             matchingPerson = person;
             return new ResponseEntity<>(matchingPerson, HttpStatus.OK);
@@ -129,12 +130,19 @@ public class PersonController implements HealthIndicator {
 
         @DeleteMapping(value = "/person")
         public ResponseEntity<?> deletePerson (@RequestBody Person person){
+            System.out.println(person);
+            System.out.println(person.getFirstName());
+            System.out.println(person.getLastName());
+            System.out.println(personDao.findAll());
 
             if (person == null) {
                 return new ResponseEntity<>("null", HttpStatus.BAD_REQUEST);
             } else {
+                var deletedPerson = personDao.deletedPerson1(person);
+                System.out.println("coucou:" + deletedPerson);
+
                // boolean personDeleted = personDao.deletedPerson(person);
-                if (personDao.deletedPerson(person)) return new ResponseEntity<>("successfull operation", HttpStatus.OK);
+                if (deletedPerson) return new ResponseEntity<>("successfull operation", HttpStatus.OK);
                 else return new ResponseEntity<>("not found", HttpStatus.NOT_FOUND);
             }
         }

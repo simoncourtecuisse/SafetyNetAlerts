@@ -15,11 +15,6 @@ public class FireStation {
 		this.station = station;
 	}
 
-//	public FireStation() {
-//		this.addressList = addressList;
-//		this.station = station;
-//	}
-
 	public void addAddresses(String address) {
 		addressList.add(address);
 	}
