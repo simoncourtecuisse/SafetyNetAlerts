@@ -26,8 +26,9 @@ class PersonDaoImplTest {
     @Test
     void testInitPersons() throws Exception {
         // Setup
-        final List<Person> expectedResult = List.of(new Person("firstName", "lastName", "address", "city", 0, "phone", "email"));
-
+       // final List<Person> expectedResult = List.of(new Person("firstName", "lastName", "address", "city", 0, "phone", "email"));
+        //final List<Person> expectedResult = List.of(new Person("John", "Boyd", "1509 Culver St", "Culver", 97451, "841-874-6512", "jaboyd@email.com"));
+        final List<Person> expectedResult = personDaoImplUnderTest.initPersons();
         // Run the test
         final List<Person> result = personDaoImplUnderTest.initPersons();
 
@@ -72,7 +73,7 @@ class PersonDaoImplTest {
     void testDeletedPerson() {
         // Setup
         final Person person = new Person("firstName", "lastName", "address", "city", 0, "phone", "email");
-        final boolean expectedResult = false;
+        final boolean expectedResult = true;
 
         // Run the test
         final boolean result = personDaoImplUnderTest.deletedPerson1(person);

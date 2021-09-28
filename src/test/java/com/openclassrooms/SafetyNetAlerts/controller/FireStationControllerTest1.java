@@ -1,9 +1,8 @@
 package com.openclassrooms.SafetyNetAlerts.controller;
 
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 import com.openclassrooms.SafetyNetAlerts.JacksonConfiguration;
 import com.openclassrooms.SafetyNetAlerts.dao.FireStationDaoImpl;
 import com.openclassrooms.SafetyNetAlerts.dao.PersonDao;
@@ -12,12 +11,14 @@ import com.openclassrooms.SafetyNetAlerts.model.Person;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -37,11 +38,15 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@ExtendWith(SpringExtension.class)
+@AutoConfigureMockMvc
+@ContextConfiguration(classes = {FireStationController.class})
+//@ExtendWith(SpringExtension.class)
 @WebMvcTest(FireStationController.class)
 @Import(JacksonConfiguration.class)
 class FireStationControllerTest1 {
 
+    @Autowired
+    private FireStationController fireStationController;
     @Autowired
     private MockMvc mockMvc;
 
@@ -50,35 +55,19 @@ class FireStationControllerTest1 {
     @MockBean
     private PersonDao mockPersonDao;
 
-    private FireStation createFireStation() {
-        List<String> anyAddress = new ArrayList<>();
-        FireStation fireStation = new FireStation(anyAddress, 1);
-        fireStation.setStation(1);
-        return fireStation;
-
-    }
-
-    @Test
-    void testAddFireStation() throws Exception {
-        when(mockFireStationDao.savedFireStation(any(FireStation.class))).thenReturn(createFireStation());
-        mockMvc.perform(MockMvcRequestBuilders.post("/firestation")
-                .content(new ObjectMapper().writeValueAsString(createFireStation()))
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
-                .andExpect(status().isCreated())
-                //.andExpect(jsonPath("$.address").value("[1]"))
-                .andExpect(jsonPath("$[0].station").value(1));
-
-    }
-
 //    @Test
 //    void testAddFireStation() throws Exception {
 //        // Setup
-//       when(mockFireStationDao.savedFireStation(new FireStation(List.of("value"), 0))).thenReturn(new FireStation(List.of("value"), 0));
+//       when(mockFireStationDao.savedFireStation(new FireStation(List.of("address"), 2))).thenReturn(new FireStation(List.of("address"), 2));
 //
 //        // Run the test
+//        JsonObject jsonObject = new JsonObject();
+//        jsonObject.addProperty(String.valueOf(List.of("address")), "street");
+//       // jsonObject.addProperty("83 street", "13");
+//        System.out.println(jsonObject);
 //        final MockHttpServletResponse response = mockMvc.perform(post("/firestation")
-//                .param("street", "2")
+//                //.param("street", "2")
+//                        .content(jsonObject.toString()).contentType(MediaType.APPLICATION_JSON)
 //                .accept(MediaType.APPLICATION_JSON))
 //                .andReturn().getResponse();
 //
@@ -87,37 +76,64 @@ class FireStationControllerTest1 {
 //        assertEquals(HttpStatus.CREATED.value(), response.getStatus());
 //        assertEquals("expectedResponse", response.getContentAsString());
 //    }
-//    @Test
-//    void testAddFireStation() throws Exception {
-//        FireStation testFireStation = new FireStation((List.of("address")), 2);
-//        final List<FireStation> fireStationsList = List.of(testFireStation);
-//        when(mockFireStationDao.findAll()).thenReturn(fireStationsList);
-//
-//        JsonObject jsonObject = new JsonObject();
-//        jsonObject.addProperty(String.valueOf(List.of("address")), "street");
-//        jsonObject.addProperty("station", 3);
-//        final MockHttpServletResponse response = mockMvc.perform(post("/firestation")
-//                        .content(jsonObject.toString()).contentType(MediaType.APPLICATION_JSON)
-//                        .accept(MediaType.APPLICATION_JSON))
-//                .andReturn().getResponse();
-//        assertEquals(HttpStatus.CREATED.value(), response.getStatus());
-//    }
+    @Test
+    void testAddFireStation() throws Exception {
+        FireStation testFireStation = new FireStation((List.of("address")), 2);
+        final List<FireStation> fireStationsList = List.of(testFireStation);
+        when(mockFireStationDao.findAll()).thenReturn(fireStationsList);
+
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty(String.valueOf(List.of("address")), "street");
+        jsonObject.addProperty("station", 13);
+        final MockHttpServletResponse response = mockMvc.perform(post("/firestation")
+                        .content(jsonObject.toString()).contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andReturn().getResponse();
+        System.out.println(jsonObject);
+        assertEquals(HttpStatus.CREATED.value(), response.getStatus());
+    }
 
     @Test
     void testUpdateFireStation() throws Exception {
         // Setup
-        when(mockFireStationDao.savedFireStation(new FireStation(List.of("value"), 0))).thenReturn(new FireStation(List.of("value"), 0));
+//        FireStation testFireStation = new FireStation(List.of("address"), 0);
+//        when(mockFireStationDao.savedFireStation(testFireStation)).thenReturn(new FireStation(List.of("value"), 0));
+        FireStation testFireStation = new FireStation(List.of("address"), 0);
+        final List<FireStation> fireStationsList = List.of(testFireStation);
+        when(mockFireStationDao.findAll()).thenReturn(fireStationsList);
 
         // Run the test
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("address", "address");
+        jsonObject.addProperty("station", 5);
         final MockHttpServletResponse response = mockMvc.perform(put("/firestation")
-                .content("content").contentType(MediaType.APPLICATION_JSON)
+                .content(jsonObject.toString()).contentType(MediaType.APPLICATION_JSON)
                 .accept(MediaType.APPLICATION_JSON))
                 .andReturn().getResponse();
+        JsonObject jsonObjectResponse = new JsonParser().parse(response.getContentAsString()).getAsJsonObject();
+        //System.out.println(response.getContentAsString());
+        System.out.println(jsonObject);
 
         // Verify the results
         assertEquals(HttpStatus.OK.value(), response.getStatus());
-        assertEquals("expectedResponse", response.getContentAsString());
+        assertEquals("5", jsonObjectResponse.get("station").getAsString());
     }
+
+//    @Test
+//    void testUpdateFireStation() throws Exception {
+//        // Setup
+//        when(mockFireStationDao.savedFireStation(new FireStation(List.of("value"), 0))).thenReturn(new FireStation(List.of("value"), 0));
+//
+//        // Run the test
+//        final MockHttpServletResponse response = mockMvc.perform(put("/firestation")
+//                .content("content").contentType(MediaType.APPLICATION_JSON)
+//                .accept(MediaType.APPLICATION_JSON))
+//                .andReturn().getResponse();
+//
+//        // Verify the results
+//        assertEquals(HttpStatus.OK.value(), response.getStatus());
+//        assertEquals("expectedResponse", response.getContentAsString());
+//    }
 
     @Test
     void testDeleteFireStation() throws Exception {
@@ -141,78 +157,19 @@ class FireStationControllerTest1 {
 
         // Configure PersonDao.getPersonFromSameStation(...).
         final List<Person> personList = List.of(new Person("firstName", "lastName", "address", "city", 0, "phone", "email"));
-        when(mockPersonDao.getPersonFromSameStation(0)).thenReturn(personList);
+        when(mockPersonDao.getPersonFromSameStation(24)).thenReturn(personList);
 
         when(mockFireStationDao.filterResult(any(String[].class), eq(List.of(new Person("firstName", "lastName", "address", "city", 0, "phone", "email"))))).thenReturn(new JsonArray(0));
 
         // Run the test
         final MockHttpServletResponse response = mockMvc.perform(get("/firestation")
-                .param("station", "station")
+                .param("station", "24")
                 .accept(MediaType.APPLICATION_JSON))
                 .andReturn().getResponse();
 
         // Verify the results
         assertEquals(HttpStatus.OK.value(), response.getStatus());
-        assertEquals("expectedResponse", response.getContentAsString());
-    }
-
-    @Test
-    void testGetPersonByFireStation_PersonDaoReturnsNoItems() throws Exception {
-        // Setup
-        when(mockPersonDao.getPersonFromSameStation(0)).thenReturn(Collections.emptyList());
-        when(mockFireStationDao.filterResult(any(String[].class), eq(List.of(new Person("firstName", "lastName", "address", "city", 0, "phone", "email"))))).thenReturn(new JsonArray(0));
-
-        // Run the test
-        final MockHttpServletResponse response = mockMvc.perform(get("/firestation")
-                .param("station", "station")
-                .accept(MediaType.APPLICATION_JSON))
-                .andReturn().getResponse();
-
-        // Verify the results
-        assertEquals(HttpStatus.OK.value(), response.getStatus());
-        assertEquals("expectedResponse", response.getContentAsString());
-    }
-
-    @Test
-    void testGetPersonByFireStation_FireStationDaoImplReturnsNoItems() throws Exception {
-        // Setup
-
-        // Configure PersonDao.getPersonFromSameStation(...).
-        final List<Person> personList = List.of(new Person("firstName", "lastName", "address", "city", 0, "phone", "email"));
-        when(mockPersonDao.getPersonFromSameStation(0)).thenReturn(personList);
-
-        when(mockFireStationDao.filterResult(any(String[].class), eq(List.of(new Person("firstName", "lastName", "address", "city", 0, "phone", "email"))))).thenReturn(new JsonArray());
-
-        // Run the test
-        final MockHttpServletResponse response = mockMvc.perform(get("/firestation")
-                .param("station", "station")
-                .accept(MediaType.APPLICATION_JSON))
-                .andReturn().getResponse();
-
-        // Verify the results
-        assertEquals(HttpStatus.OK.value(), response.getStatus());
-        assertEquals("expectedResponse", response.getContentAsString());
-    }
-
-    @Test
-    void testGetPersonByFireStation_FireStationDaoImplThrowsJsonProcessingException() throws Exception {
-        // Setup
-
-        // Configure PersonDao.getPersonFromSameStation(...).
-        final List<Person> personList = List.of(new Person("firstName", "lastName", "address", "city", 0, "phone", "email"));
-        when(mockPersonDao.getPersonFromSameStation(0)).thenReturn(personList);
-
-        when(mockFireStationDao.filterResult(any(String[].class), eq(List.of(new Person("firstName", "lastName", "address", "city", 0, "phone", "email"))))).thenThrow(JsonProcessingException.class);
-
-        // Run the test
-        final MockHttpServletResponse response = mockMvc.perform(get("/firestation")
-                .param("station", "station")
-                .accept(MediaType.APPLICATION_JSON))
-                .andReturn().getResponse();
-
-        // Verify the results
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR.value(), response.getStatus());
-        assertEquals("expectedResponse", response.getContentAsString());
+        assertEquals("{\"adults\":0,\"childs\":1,\"person\":[]}", response.getContentAsString());
     }
 
     @Test
@@ -229,13 +186,13 @@ class FireStationControllerTest1 {
 
         // Run the test
         final MockHttpServletResponse response = mockMvc.perform(get("/phoneAlert")
-                .param("firestation", "firestation")
+                .param("firestation", "0")
                 .accept(MediaType.APPLICATION_JSON))
                 .andReturn().getResponse();
 
         // Verify the results
         assertEquals(HttpStatus.OK.value(), response.getStatus());
-        assertEquals("expectedResponse", response.getContentAsString());
+        assertEquals("[\"FirstName = firstName, LastName = lastName, Phone = phone\"]", response.getContentAsString());
     }
 
     @Test
@@ -314,13 +271,13 @@ class FireStationControllerTest1 {
 
         // Run the test
         final MockHttpServletResponse response = mockMvc.perform(get("/flood")
-                .param("stations", "stations")
+                .param("stations", "0")
                 .accept(MediaType.APPLICATION_JSON))
                 .andReturn().getResponse();
 
         // Verify the results
         assertEquals(HttpStatus.OK.value(), response.getStatus());
-        assertEquals("expectedResponse", response.getContentAsString());
+        assertEquals("{\"person\":[]}", response.getContentAsString());
     }
 
     @Test
@@ -362,27 +319,6 @@ class FireStationControllerTest1 {
     }
 
     @Test
-    void testFlood_FireStationDaoImplThrowsJsonProcessingException() throws Exception {
-        // Setup
-
-        // Configure PersonDao.getPersonFromSameStation(...).
-        final List<Person> personList = List.of(new Person("firstName", "lastName", "address", "city", 0, "phone", "email"));
-        when(mockPersonDao.getPersonFromSameStation(0)).thenReturn(personList);
-
-        when(mockFireStationDao.filterResult(any(String[].class), eq(List.of(new Person("firstName", "lastName", "address", "city", 0, "phone", "email"))))).thenThrow(JsonProcessingException.class);
-
-        // Run the test
-        final MockHttpServletResponse response = mockMvc.perform(get("/flood")
-                .param("stations", "stations")
-                .accept(MediaType.APPLICATION_JSON))
-                .andReturn().getResponse();
-
-        // Verify the results
-        assertEquals(HttpStatus.INTERNAL_SERVER_ERROR.value(), response.getStatus());
-        assertEquals("expectedResponse", response.getContentAsString());
-    }
-
-    @Test
     void testFire() throws Exception {
         // Setup
 
@@ -396,7 +332,7 @@ class FireStationControllerTest1 {
 
         // Run the test
         final MockHttpServletResponse response = mockMvc.perform(get("/fire")
-                .param("queryStringParameters", "queryStringParameters")
+                .param("stations", "0")
                 .accept(MediaType.APPLICATION_JSON))
                 .andReturn().getResponse();
 

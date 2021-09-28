@@ -15,7 +15,9 @@ import java.util.ArrayList;
 import org.junit.Assert;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
@@ -34,25 +36,22 @@ import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 
 //@SpringBootTest
-//@AutoConfigureMockMvc
+@AutoConfigureMockMvc
 @ContextConfiguration(classes = {PersonController.class})
-@ExtendWith(SpringExtension.class)
+//@ExtendWith(SpringExtension.class)
 @WebMvcTest(PersonController.class)
 @Import(JacksonConfiguration.class)
 class PersonControllerTest {
 
-    //    @MockBean
-//    private MedicalRecordDao medicalRecordDao;
     @Autowired
     private PersonController personController;
-
-
     @Autowired
     private MockMvc mockMvc;
 
@@ -385,7 +384,9 @@ class PersonControllerTest {
 
         Person testPerson = new Person("firstName", "lastName", "address", "city", 0, "phone", "email");
         final List<Person> personList = List.of(testPerson);
-        when(mockPersonDao.findAll()).thenReturn(personList);
+        //when(mockPersonDao.findAll()).thenReturn(personList);
+        //when(mockPersonDao.deletedPerson1(testPerson)).thenReturn(true);
+        when(mockPersonDao.deletedPerson1(any(Person.class))).thenReturn(true);
 
         JsonObject jsonObject = new JsonObject();
         jsonObject.addProperty("lastName", "lastName");
@@ -396,34 +397,53 @@ class PersonControllerTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andReturn().getResponse();
 
-        JsonObject jsonObjectResponse = new JsonParser().parse(response.getContentAsString()).getAsJsonObject();
+       // JsonObject jsonObjectResponse = new JsonParser().parse(response.getContentAsString()).getAsJsonObject();
         // System.out.println(jsonObject);
         System.out.println(response.getContentAsString());
         // Verify the results
         assertEquals(HttpStatus.OK.value(), response.getStatus());
         //assertEquals("firstName@gmail.com", jsonObjectResponse.get("email").getAsString());
+        assertEquals("successfull operation", response.getContentAsString());
     }
 
 
     @Test
     void testDeletePerson_ReturnBadRequest() throws Exception {
         // Setup
-
-        // Configure PersonDaoImpl.findAll(...).
         Person testPerson = new Person("firstName", "lastName", "address", "city", 0, "phone", "email");
         final List<Person> personList = List.of(testPerson);
-        when(mockPersonDao.findAll()).thenReturn(personList);
+        when(mockPersonDao.deletedPerson1(any(Person.class))).thenReturn(true);
 
         // Run the test
         final MockHttpServletResponse response = mockMvc.perform(delete("/person")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andReturn().getResponse();
-//        JsonObject jsonObjectResponse = new JsonParser().parse(response.getContentAsString()).getAsJsonObject();
 
         // Verify the results
         assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatus());
-        //assertEquals("firstName@gmail.com", jsonObjectResponse.get("email").getAsString());
+
+    }
+
+    @Test
+    void testDeletePerson_ReturnNotFound() throws Exception {
+        Person testPerson = new Person("firstName", "lastName", "address", "city", 0, "phone", "email");
+        final List<Person> personList = List.of(testPerson);
+        when(mockPersonDao.deletedPerson1(any(Person.class))).thenReturn(false);
+
+        JsonObject jsonObject = new JsonObject();
+        jsonObject.addProperty("lastName", "lastName");
+        jsonObject.addProperty("firstName", "firstName");
+        jsonObject.addProperty("city", "anglet");
+        final MockHttpServletResponse response = mockMvc.perform(delete("/person")
+                        .content(jsonObject.toString()).contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andReturn().getResponse();
+        System.out.println(response.getContentAsString());
+
+        // Verify the results
+        assertEquals(HttpStatus.NOT_FOUND.value(), response.getStatus());
+        assertEquals("not found", response.getContentAsString());
     }
 
     @Test
