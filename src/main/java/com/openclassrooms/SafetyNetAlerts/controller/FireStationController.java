@@ -40,6 +40,7 @@ public class FireStationController {
 
     @PostMapping(value = "/firestation")
     public ResponseEntity<Void> addFireStation(@RequestBody FireStation fireStation) {
+        System.out.println(fireStation);
 
         FireStation fireStationAdded = fireStationDao.savedFireStation(fireStation);
         if (fireStationAdded == null)
