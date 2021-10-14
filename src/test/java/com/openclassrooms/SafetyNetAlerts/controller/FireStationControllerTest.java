@@ -101,6 +101,21 @@ class FireStationControllerTest {
     }
 
     @Test
+    void testAddFireStation_NoContent() throws Exception {
+        FireStation testFireStation = new FireStation((List.of("addressList")), 2);
+        when(mockFireStationDao.savedFireStation(any(FireStation.class))).thenReturn(null);
+
+
+        String jsonObject = new Gson().toJson(testFireStation);
+        final MockHttpServletResponse response = mockMvc.perform(post("/firestation")
+                        .content(jsonObject).contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
+                .andReturn().getResponse();
+        System.out.println(jsonObject);
+        assertEquals(HttpStatus.NO_CONTENT.value(), response.getStatus());
+    }
+
+    @Test
     void testUpdateFireStation() throws Exception {
         // Setup
         FireStation testFireStation = new FireStation((List.of("addressList")), 2);

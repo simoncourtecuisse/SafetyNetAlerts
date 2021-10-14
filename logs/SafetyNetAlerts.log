@@ -1,0 +1,46 @@
+[DEBUG] 2021-10-12 14:20:37.884 [main] SafetyNetAlertsApplication - SafetyNet Alerts started
+[INFO ] 2021-10-12 14:20:38.941 [main] SafetyNetAlertsApplication - Starting SafetyNetAlertsApplication using Java 14.0.1 on DESKTOP-0AQ2LDQ with PID 11800 (C:\Users\Simon\Desktop\FORMATION DEV JAVA\Projet 5\SafetyNetAlerts\target\classes started by Simon in C:\Users\Simon\Desktop\FORMATION DEV JAVA\Projet 5\SafetyNetAlerts)
+[DEBUG] 2021-10-12 14:20:38.949 [main] SafetyNetAlertsApplication - Running with Spring Boot v2.4.2, Spring v5.3.3
+[INFO ] 2021-10-12 14:20:38.950 [main] SafetyNetAlertsApplication - No active profile set, falling back to default profiles: default
+[INFO ] 2021-10-12 14:20:44.409 [main] SafetyNetAlertsApplication - Started SafetyNetAlertsApplication in 6.263 seconds (JVM running for 9.288)
+[DEBUG] 2021-10-12 14:22:28.662 [http-nio-8080-exec-2] PersonController - Get request sent from the PersonController to retrieve all persons from database
+[DEBUG] 2021-10-12 14:22:40.982 [http-nio-8080-exec-3] PersonController - Get request sent from the PersonController to retrieve information belonging to'John' Boyd'
+[INFO ] 2021-10-12 14:22:40.983 [http-nio-8080-exec-3] PersonController - 'John Boyd' retrieved successfully
+[DEBUG] 2021-10-12 14:23:15.649 [main] SafetyNetAlertsApplication - SafetyNet Alerts started
+[INFO ] 2021-10-12 14:23:16.844 [main] SafetyNetAlertsApplication - Starting SafetyNetAlertsApplication using Java 14.0.1 on DESKTOP-0AQ2LDQ with PID 1672 (C:\Users\Simon\Desktop\FORMATION DEV JAVA\Projet 5\SafetyNetAlerts\target\classes started by Simon in C:\Users\Simon\Desktop\FORMATION DEV JAVA\Projet 5\SafetyNetAlerts)
+[DEBUG] 2021-10-12 14:23:16.848 [main] SafetyNetAlertsApplication - Running with Spring Boot v2.4.2, Spring v5.3.3
+[INFO ] 2021-10-12 14:23:16.849 [main] SafetyNetAlertsApplication - No active profile set, falling back to default profiles: default
+[INFO ] 2021-10-12 14:23:21.690 [main] SafetyNetAlertsApplication - Started SafetyNetAlertsApplication in 5.834 seconds (JVM running for 8.166)
+[DEBUG] 2021-10-12 14:23:45.222 [http-nio-8080-exec-2] PersonController - Get request sent from the PersonController to retrieve all persons from database
+[DEBUG] 2021-10-12 14:24:06.126 [http-nio-8080-exec-3] PersonController - Get request sent from the PersonController to retrieve information belonging to 'John Boyd'
+[INFO ] 2021-10-12 14:24:06.127 [http-nio-8080-exec-3] PersonController - 'John Boyd' retrieved successfully
+[DEBUG] 2021-10-12 14:25:05.768 [http-nio-8080-exec-8] PersonController - Get request sent from the PersonController to retrieve information belonging to 'Jqsdqohn Boyd'
+[ERROR] 2021-10-12 14:25:05.768 [http-nio-8080-exec-8] PersonController - Failed to retrieve person because the person was not found
+[DEBUG] 2021-10-12 14:25:43.171 [http-nio-8080-exec-1] PersonController - Get request sent from the PersonController to retrieve information belonging to 'John Boyd'
+[INFO ] 2021-10-12 14:25:43.171 [http-nio-8080-exec-1] PersonController - 'John Boyd' retrieved successfully
+[DEBUG] 2021-10-12 14:26:15.288 [http-nio-8080-exec-4] PersonController - Get request sent from the PersonController
+[INFO ] 2021-10-12 14:26:15.288 [http-nio-8080-exec-4] PersonController - Community email retrieved successfully
+[DEBUG] 2021-10-12 14:26:48.173 [http-nio-8080-exec-7] PersonController - Get request sent from the PersonController
+[ERROR] 2021-10-12 14:26:48.173 [http-nio-8080-exec-7] PersonController - Failed to get community email because of a BAD REQUEST
+[DEBUG] 2021-10-12 14:26:54.889 [http-nio-8080-exec-8] PersonController - Get request sent from the PersonController
+[INFO ] 2021-10-12 14:26:54.889 [http-nio-8080-exec-8] PersonController - Community email retrieved successfully
+[DEBUG] 2021-10-12 14:27:09.272 [http-nio-8080-exec-9] PersonController - Post request sent from the PersonController
+[DEBUG] 2021-10-12 14:27:16.791 [http-nio-8080-exec-10] PersonController - Put request sent from the PersonController
+[INFO ] 2021-10-12 14:27:16.792 [http-nio-8080-exec-10] PersonController - 'Simon Courtecuisse' updated successfully
+[DEBUG] 2021-10-12 14:27:33.010 [http-nio-8080-exec-1] PersonController - Put request sent from the PersonController
+[DEBUG] 2021-10-12 14:27:58.229 [http-nio-8080-exec-3] PersonController - Put request sent from the PersonController
+[INFO ] 2021-10-12 14:27:58.229 [http-nio-8080-exec-3] PersonController - 'Simon Courtecuisse' updated successfully
+[DEBUG] 2021-10-12 14:28:18.360 [http-nio-8080-exec-4] PersonController - Put request sent from the PersonController
+[DEBUG] 2021-10-12 14:30:03.708 [http-nio-8080-exec-9] PersonController - Get request sent from the PersonController to retrieve children living at 892 Downing Ct
+[INFO ] 2021-10-12 14:30:03.708 [http-nio-8080-exec-9] PersonController - Children retrieved successfully
+[DEBUG] 2021-10-14 10:32:16.930 [main] SafetyNetAlertsApplication - SafetyNet Alerts started
+[INFO ] 2021-10-14 10:32:17.750 [main] SafetyNetAlertsApplication - Starting SafetyNetAlertsApplication using Java 14.0.1 on DESKTOP-0AQ2LDQ with PID 3060 (C:\Users\Simon\Desktop\FORMATION DEV JAVA\Projet 5\SafetyNetAlerts\target\classes started by Simon in C:\Users\Simon\Desktop\FORMATION DEV JAVA\Projet 5\SafetyNetAlerts)
+[DEBUG] 2021-10-14 10:32:17.758 [main] SafetyNetAlertsApplication - Running with Spring Boot v2.4.2, Spring v5.3.3
+[INFO ] 2021-10-14 10:32:17.758 [main] SafetyNetAlertsApplication - No active profile set, falling back to default profiles: default
+[INFO ] 2021-10-14 10:32:21.816 [main] SafetyNetAlertsApplication - Started SafetyNetAlertsApplication in 4.743 seconds (JVM running for 6.668)
+[DEBUG] 2021-10-14 10:33:58.807 [http-nio-8080-exec-1] MedicalRecordController - Get request sent from the MedicalRecordController
+[DEBUG] 2021-10-14 10:34:09.964 [http-nio-8080-exec-3] MedicalRecordController - Post request sent from the MedicalRecordController
+[DEBUG] 2021-10-14 10:34:15.342 [http-nio-8080-exec-4] MedicalRecordController - Put request sent from the MedicalRecordController
+[INFO ] 2021-10-14 10:34:15.343 [http-nio-8080-exec-4] MedicalRecordController - Medical Records for 'Tenley Boyd' were updated successfully
+[DEBUG] 2021-10-14 10:34:25.762 [http-nio-8080-exec-5] MedicalRecordController - Delete request sent from the MedicalRecordController
+[INFO ] 2021-10-14 10:34:25.762 [http-nio-8080-exec-5] MedicalRecordController - Medical Records were deleted successfully

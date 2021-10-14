@@ -20,6 +20,5 @@ public interface FireStationDao {
     public FireStation savedFireStation(FireStation fireStation);
     public FireStation deletedFireStation(FireStation fireStation);
     public List<FireStation> getFireStationById (Integer station);
-//    void delete(Map<String, Integer> queryStringParameters);
     public JsonArray filterResult (String[] attributs, List<Person> personList) throws JsonProcessingException;
 }
