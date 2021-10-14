@@ -8,12 +8,12 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class SafetyNetAlertsApplication {
 
-	private static final Logger LOGGER = LogManager
-			.getLogger(SafetyNetAlertsApplication.class.getName());
+    private static final Logger LOGGER = LogManager
+            .getLogger(SafetyNetAlertsApplication.class.getName());
 
-	public static void main(String[] args) {
-		LOGGER.debug("SafetyNet Alerts started");
-		SpringApplication.run(SafetyNetAlertsApplication.class, args);
-	}
+    public static void main(String[] args) {
+        LOGGER.debug("SafetyNet Alerts started");
+        SpringApplication.run(SafetyNetAlertsApplication.class, args);
+    }
 
 }

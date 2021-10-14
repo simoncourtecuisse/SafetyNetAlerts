@@ -5,7 +5,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class MedicalRecordTest {
 
@@ -39,7 +38,7 @@ class MedicalRecordTest {
     @Test
     void testToString() {
         final String result = medicalRecordUnderTest.toString();
-        assertEquals("medications = []"  + ", allergies = []", result);
+        assertEquals("medications = []" + ", allergies = []", result);
     }
 
     @Test

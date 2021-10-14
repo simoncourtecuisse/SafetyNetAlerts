@@ -4,7 +4,6 @@ import com.openclassrooms.SafetyNetAlerts.data.Extract;
 import com.openclassrooms.SafetyNetAlerts.model.Location;
 import com.openclassrooms.SafetyNetAlerts.model.Person;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
 import java.io.FileNotFoundException;
@@ -26,21 +25,15 @@ public class LocationDaoImpl implements LocationDao {
 
         Map<Location, List<Person>> mappingLocation = new HashMap<>();
         for (Person p : personDao.findAll()) {
-           if (mappingLocation.get(p.getLocation()) != null) {
+            if (mappingLocation.get(p.getLocation()) != null) {
                 mappingLocation.get(p.getLocation()).add(p);
+            } else {
+                List<Location> mappingLocationList = new ArrayList<>();
+                mappingLocationList.add(p.getLocation());
             }
-           else {
-               List<Location> mappingLocationList = new ArrayList<>();
-               mappingLocationList.add(p.getLocation());
-           }
         }
 
         System.out.println(mappingLocation);
         return locations;
     }
 }
-//    for (Person p : personDao.findAll()) {
-//        if (mapping.get(p.getLocation())) {
-//
-//        mapping.get(p.getLocation()).add(p);
-//        else {

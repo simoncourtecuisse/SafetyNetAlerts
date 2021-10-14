@@ -2,19 +2,13 @@ package com.openclassrooms.SafetyNetAlerts.dao;
 
 import com.openclassrooms.SafetyNetAlerts.data.Extract;
 import com.openclassrooms.SafetyNetAlerts.model.FireStation;
-import com.openclassrooms.SafetyNetAlerts.model.Location;
 import com.openclassrooms.SafetyNetAlerts.model.Person;
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 
-import javax.json.JsonObject;
-import javax.json.JsonValue;
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.stream.Collectors;
 
 
@@ -33,7 +27,7 @@ public class PersonDaoImpl implements PersonDao {
     }
 
     @Override
-    public List<Person> findAll()  {
+    public List<Person> findAll() {
 //        List<Person> allPersons = extract.extractPersonsFromJson();
         return getPersons();
     }
@@ -85,17 +79,4 @@ public class PersonDaoImpl implements PersonDao {
     public void setPersons(List<Person> persons) {
         this.persons = persons;
     }
-
-//    public List<Person> getPhoneForAlert(Integer station, Integer phone) {
-//        List<FireStation> fireStation = fireStationDao.getFireStationById(station);
-//        if (fireStation == null) {
-//            return null;
-//        }
-//        return persons.stream()
-//                .filter(p -> (p.getLocation().getAddress().equals(fireStation.getAddressList())) && p.getPhone().equals(fireStation.getAddressList()))
-//                .collect(Collectors.toList());
-//
-//    }
-
-
 }

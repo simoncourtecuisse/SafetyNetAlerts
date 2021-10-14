@@ -17,7 +17,9 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 
 @Service
@@ -33,6 +35,7 @@ public class Extract {
             e.printStackTrace();
         }
     }
+
     public static JsonObject jsonObject = jsonReader.readObject();
 
     @Autowired
@@ -40,7 +43,6 @@ public class Extract {
     @Autowired
     private MedicalRecordDao medicalRecordDao;
 
-    // public static List<Person> extractPersonsFromJson;
     public static List<Person> extractPersonsFromJson() throws FileNotFoundException {
 
 
@@ -60,24 +62,6 @@ public class Extract {
         }
         return persons;
     }
-//    public static List<Person> extractPersonsFromJson(JsonArray personsAsJson) {
-//
-//        List<Person> persons = new ArrayList<>();
-//        for (JsonValue person : personsAsJson) {
-//            String firstName = ((JsonObject) person).getString("firstName");
-//            String lastName = ((JsonObject) person).getString("lastName");
-//            String address = ((JsonObject) person).getString("address");
-//            String city = ((JsonObject) person).getString("city");
-//            String zipAsString = ((JsonObject) person).getString("zip");
-//            String phone = ((JsonObject) person).getString("phone");
-//            String email = ((JsonObject) person).getString("email");
-//
-//            Person ps = new Person(firstName, lastName, address, city, Integer.parseInt(zipAsString), phone, email);
-//            persons.add(ps);
-//            System.out.println(ps);
-//        }
-//        return persons;
-//    }
 
     public static List<FireStation> extractFireStationsFromJson() {
 
@@ -89,23 +73,7 @@ public class Extract {
             FireStation fs = new FireStation(Collections.singletonList(address), Integer.parseInt(stationAsString));
             firestations.add(fs);
             System.out.println(fs);
-//        Map<Integer, List<String>> firestations = new HashMap();
-//        for (JsonValue firestation : jsonObject.getJsonArray("firestations")) {
-//            String address = ((JsonObject) firestation).getString("address");
-//            String stationAsString = ((JsonObject) firestation).getString("station");
-//        if (firestations.get(Integer.parseInt(stationAsString)) != null) {
-//            firestations.put(Integer.parseInt(stationAsString), Collections.singletonList(address));
-//        }
 
-
-//            FireStation fs = new FireStation();
-//            FireStation matchingObject = firestations.stream()
-//                    .filter(f -> f.getAddressList().equals(address) && f.getStation().equals(stationAsString))
-//                    .findAny().orElse(null);
-//            matchingObject.addAddresses(((JsonObject) firestation).getString("address"));
-
-//            firestations.add(matchingObject);
-//            System.out.println(matchingObject);
         }
         return firestations;
 
@@ -142,15 +110,7 @@ public class Extract {
             matchingObject.addMedications(((JsonObject) medicalRecord).getJsonArray("medications").toString());
             matchingObject.addAllergies(((JsonObject) medicalRecord).getJsonArray("allergies").toString());
             matchingObject.setBirthdate(LocalDate.parse(birthdate, DateTimeFormatter.ofPattern("MM/dd/yyyy")));
-
-            // matchingObject.setBirthdate(new SimpleDateFormat("MM/dd/yyyy").parse(birthdate));
             System.out.println(matchingObject);
-
-            // DateFormat bd = DateFormat.getDateInstance(DateFormat.LONG, Locale.FRANCE);
-            //Date dayOfBirth = bd.parse(birthdate);
-
-            //Date bd = new SimpleDateFormat("MM/dd/yyyy").parse(birthdate);
-            //System.out.println(sDate1+"\t"+date1);
         }
 
         return medicalRecords;

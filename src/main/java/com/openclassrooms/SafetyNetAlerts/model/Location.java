@@ -4,48 +4,48 @@ package com.openclassrooms.SafetyNetAlerts.model;
 import java.util.Objects;
 
 public class Location {
-	private String address;
-	private String city;
-	private Integer zip;
+    private String address;
+    private String city;
+    private Integer zip;
 
-	public Location(String address, String city, Integer zip) {
-		this.address = address;
-		this.city = city;
-		this.zip = zip;
+    public Location(String address, String city, Integer zip) {
+        this.address = address;
+        this.city = city;
+        this.zip = zip;
 
-	}
+    }
 
-	public String getAddress() {
-		return address;
-	}
+    public String getAddress() {
+        return address;
+    }
 
-	public void setAddress(String address) {
-		this.address = address;
-	}
+    public void setAddress(String address) {
+        this.address = address;
+    }
 
-	public String getCity() {
-		return city;
-	}
+    public String getCity() {
+        return city;
+    }
 
-	public void setCity(String city) {
-		this.city = city;
-	}
+    public void setCity(String city) {
+        this.city = city;
+    }
 
-	public Integer getZip() {
-		return zip;
-	}
+    public Integer getZip() {
+        return zip;
+    }
 
-	public void setZip(Integer zip) {
-		this.zip = zip;
-	}
+    public void setZip(Integer zip) {
+        this.zip = zip;
+    }
 
 
-	@Override
-	public String toString() {
-		return "Location [address=" + address + ", city=" + city + ", zip=" + zip + "]";
-	}
+    @Override
+    public String toString() {
+        return "Location [address=" + address + ", city=" + city + ", zip=" + zip + "]";
+    }
 
-	@Override
+    @Override
     final public boolean equals(Object obj) {
         if (this == obj) {
             return true;
@@ -56,20 +56,19 @@ public class Location {
         }
 
         Location other = (Location) obj;
-		// return (address.equals(other.address) && city.equals(other.city) && zip.equals(other.zip)) ;
-		return (Objects.equals(address, other.address) && Objects.equals(city, other.city) && Objects.equals(zip, other.zip));
+        return (Objects.equals(address, other.address) && Objects.equals(city, other.city) && Objects.equals(zip, other.zip));
 
     }
 
-	@Override
-	final public int hashCode() {
-		final int prime = 31;
-		int result = 1;
-		result = prime * result + ((address == null) ? 0 : address.hashCode());
-		result = prime * result + ((city == null) ? 0 : city.hashCode());
-		result = prime * result + ((zip == null) ? 0 : zip.hashCode());
-		return result;
-	}
+    @Override
+    final public int hashCode() {
+        final int prime = 31;
+        int result = 1;
+        result = prime * result + ((address == null) ? 0 : address.hashCode());
+        result = prime * result + ((city == null) ? 0 : city.hashCode());
+        result = prime * result + ((zip == null) ? 0 : zip.hashCode());
+        return result;
+    }
 
 
 }

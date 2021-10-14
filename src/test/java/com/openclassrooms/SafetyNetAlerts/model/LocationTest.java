@@ -5,7 +5,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class LocationTest {
 
@@ -19,7 +18,7 @@ class LocationTest {
     @Test
     void testToString() {
         final String result = locationUnderTest.toString();
-        assertEquals( "Location [address=address"  + ", city=city" + ", zip=0]", result);
+        assertEquals("Location [address=address" + ", city=city" + ", zip=0]", result);
     }
 
     @Test

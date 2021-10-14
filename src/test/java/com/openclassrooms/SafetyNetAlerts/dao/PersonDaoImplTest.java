@@ -1,29 +1,20 @@
 package com.openclassrooms.SafetyNetAlerts.dao;
 
-import com.openclassrooms.SafetyNetAlerts.controller.PersonController;
 import com.openclassrooms.SafetyNetAlerts.model.FireStation;
 import com.openclassrooms.SafetyNetAlerts.model.Person;
-import com.openclassrooms.SafetyNetAlerts.service.JacksonConfiguration;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.Mockito;
 import org.mockito.MockitoAnnotations;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.context.annotation.Import;
-import org.springframework.test.context.ContextConfiguration;
 
 import java.io.FileNotFoundException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.mock;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 //@AutoConfigureMockMvc
@@ -78,13 +69,8 @@ class PersonDaoImplTest {
 
     @Test
     void testSavedPerson() {
-        // Setup
-//        final Person person = new Person("firstName", "lastName", "address", "city", 0, "phone", "email");
-//        final Person expectedResult = new Person("firstName", "lastName", "address", "city", 0, "phone", "email");
-//       List<Person> =
         Person person = new Person("firstName", "lastName", "address", "city", 0, "phone", "email");
         personDaoImplUnderTest.savedPerson(person);
-        //when(personDaoImplUnderTest.findAll()).thenReturn(personList);
         List<Person> personList = personDaoImplUnderTest.findAll();
 
 

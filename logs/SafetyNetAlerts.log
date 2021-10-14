@@ -44,3 +44,11 @@
 [INFO ] 2021-10-14 10:34:15.343 [http-nio-8080-exec-4] MedicalRecordController - Medical Records for 'Tenley Boyd' were updated successfully
 [DEBUG] 2021-10-14 10:34:25.762 [http-nio-8080-exec-5] MedicalRecordController - Delete request sent from the MedicalRecordController
 [INFO ] 2021-10-14 10:34:25.762 [http-nio-8080-exec-5] MedicalRecordController - Medical Records were deleted successfully
+[INFO ] 2021-10-14 10:52:57.023 [main] PersonControllerTest - Starting PersonControllerTest using Java 14.0.1 on DESKTOP-0AQ2LDQ with PID 2556 (started by Simon in C:\Users\Simon\Desktop\FORMATION DEV JAVA\Projet 5\SafetyNetAlerts)
+[DEBUG] 2021-10-14 10:52:57.035 [main] PersonControllerTest - Running with Spring Boot v2.4.2, Spring v5.3.3
+[INFO ] 2021-10-14 10:52:57.048 [main] PersonControllerTest - No active profile set, falling back to default profiles: default
+[INFO ] 2021-10-14 10:53:00.673 [main] PersonControllerTest - Started PersonControllerTest in 4.317 seconds (JVM running for 9.241)
+[INFO ] 2021-10-14 10:53:19.518 [main] PersonControllerTest - Starting PersonControllerTest using Java 14.0.1 on DESKTOP-0AQ2LDQ with PID 11380 (started by Simon in C:\Users\Simon\Desktop\FORMATION DEV JAVA\Projet 5\SafetyNetAlerts)
+[DEBUG] 2021-10-14 10:53:19.525 [main] PersonControllerTest - Running with Spring Boot v2.4.2, Spring v5.3.3
+[INFO ] 2021-10-14 10:53:19.553 [main] PersonControllerTest - No active profile set, falling back to default profiles: default
+[INFO ] 2021-10-14 10:53:23.009 [main] PersonControllerTest - Started PersonControllerTest in 4.136 seconds (JVM running for 8.237)

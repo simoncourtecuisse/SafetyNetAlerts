@@ -7,16 +7,7 @@ import com.openclassrooms.SafetyNetAlerts.JacksonConfiguration;
 import com.openclassrooms.SafetyNetAlerts.dao.MedicalRecordDao;
 import com.openclassrooms.SafetyNetAlerts.dao.PersonDaoImpl;
 import com.openclassrooms.SafetyNetAlerts.model.Person;
-
-import java.io.FileNotFoundException;
-
-import java.util.ArrayList;
-
-import org.junit.Assert;
-import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mock;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -24,19 +15,15 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
-import org.springframework.mock.web.MockHttpServletRequest;
 import org.springframework.mock.web.MockHttpServletResponse;
 import org.springframework.test.context.ContextConfiguration;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
@@ -64,9 +51,6 @@ class PersonControllerTest {
     @Test
     void testAllPersons() throws Exception {
         // Setup
-
-
-        // Configure PersonDaoImpl.findAll(...).
         List<Person> personList = List.of(new Person("firstName", "lastName", "address", "city", 0, "phone", "email"));
         when(mockPersonDao.findAll()).thenReturn(personList);
 
@@ -74,7 +58,6 @@ class PersonControllerTest {
         MockHttpServletResponse response = mockMvc.perform(get("/person")
                         .accept(MediaType.APPLICATION_JSON))
                 .andReturn().getResponse();
-
 
         // Verify the results
         assertEquals(HttpStatus.OK.value(), response.getStatus());
@@ -102,8 +85,6 @@ class PersonControllerTest {
     @Test
     void testAllPersons_ThrowsFileNotFoundException() throws Exception {
         // Setup
-
-        // Configure PersonDaoImpl.findAll(...).
         final List<Person> personList = List.of(new Person("firstName", "lastName", "address", "city", 0, "phone", "email"));
         when(mockPersonDao.findAll()).thenReturn(personList);
 
@@ -120,9 +101,6 @@ class PersonControllerTest {
     @Test
     void testGetPerson() throws Exception {
         // Setup
-        //mockMvc.perform(get("/personInfo")).andExpect(status().isOk()).andExpect((ResultMatcher) jsonPath("$[0].firstname", is("John")));
-
-        // Configure PersonDaoImpl.findAll(...).
         Person testPerson = new Person("firstName", "lastName", "address", "city", 0, "phone", "email");
         final List<Person> personList = List.of(testPerson);
         when(mockPersonDao.findAll()).thenReturn(personList);
@@ -133,7 +111,7 @@ class PersonControllerTest {
                         .param("lastName", "lastName")
                         .accept(MediaType.APPLICATION_JSON))
                 .andReturn().getResponse();
-        System.out.println(HttpStatus.OK.value());
+//        System.out.println(HttpStatus.OK.value());
 
         // Verify the results
         assertEquals(HttpStatus.OK.value(), response.getStatus());
@@ -143,7 +121,7 @@ class PersonControllerTest {
 
     @Test
     void testGetPerson_ReturnsNotFound() throws Exception {
-        // Configure PersonDaoImpl.findAll(...).
+        // Setup
         Person testPerson = new Person("firstName", "lastName", "address", "city", 0, "phone", "email");
         final List<Person> personList = List.of(testPerson);
         when(mockPersonDao.findAll()).thenReturn(personList);
@@ -163,7 +141,7 @@ class PersonControllerTest {
 
     @Test
     void testGetPerson_ReturnsBadRequest() throws Exception {
-        // Configure PersonDaoImpl.findAll(...).
+        // Setup
         Person testPerson = new Person("firstName", "lastName", "address", "city", 0, "phone", "email");
         final List<Person> personList = List.of(testPerson);
         when(mockPersonDao.findAll()).thenReturn(personList);
@@ -175,7 +153,7 @@ class PersonControllerTest {
                         .param("bad")
                         .accept(MediaType.APPLICATION_JSON))
                 .andReturn().getResponse();
-        System.out.println(response.getStatus());
+//        System.out.println(response.getStatus());
 
         // Verify the results
         assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatus());
@@ -185,8 +163,6 @@ class PersonControllerTest {
     @Test
     void testGetPerson_ThrowsFileNotFoundException() throws Exception {
         // Setup
-
-        // Configure PersonDaoImpl.findAll(...).
         final List<Person> personList = List.of(new Person("firstName", "lastName", "address", "city", 0, "phone", "email"));
         when(mockPersonDao.findAll()).thenReturn(personList);
 
@@ -205,8 +181,6 @@ class PersonControllerTest {
     @Test
     void testEmailPerson() throws Exception {
         // Setup
-
-        // Configure PersonDaoImpl.findAll(...).
         final List<Person> personList = List.of(new Person("firstName", "lastName", "address", "city", 0, "phone", "email"));
         when(mockPersonDao.findAll()).thenReturn(personList);
 
@@ -240,8 +214,6 @@ class PersonControllerTest {
     @Test
     void testEmailPerson_ThrowsFileNotFoundException() throws Exception {
         // Setup
-
-        // Configure PersonDaoImpl.findAll(...).
         final List<Person> personList = List.of(new Person("firstName", "lastName", "address", "city", 0, "phone", "email"));
         when(mockPersonDao.findAll()).thenReturn(personList);
 
@@ -259,8 +231,6 @@ class PersonControllerTest {
     @Test
     void testAddPerson() throws Exception {
         // Setup
-
-        // Configure PersonDaoImpl.findAll(...).
         Person testPerson = new Person("firstName", "lastName", "address", "city", 0, "phone", "email");
         final List<Person> personList = List.of(testPerson);
         when(mockPersonDao.findAll()).thenReturn(personList);
@@ -276,16 +246,11 @@ class PersonControllerTest {
                 .andReturn().getResponse();
         // Verify the results
         assertEquals(HttpStatus.CREATED.value(), response.getStatus());
-//        List<Person> result = mockPersonDao.findAll();
-//        //JsonArray jsonArray = new JsonParser().parse(response.getContentAsString()).getAsJsonArray();
-//        assertEquals(2, personList.size());
     }
 
     @Test
     void testUpdatePerson() throws Exception {
         // Setup
-
-        // Configure PersonDaoImpl.findAll(...).
         Person testPerson = new Person("firstName", "lastName", "address", "city", 0, "phone", "email");
         final List<Person> personList = List.of(testPerson);
         when(mockPersonDao.findAll()).thenReturn(personList);
@@ -300,8 +265,7 @@ class PersonControllerTest {
                         .accept(MediaType.APPLICATION_JSON))
                 .andReturn().getResponse();
         JsonObject jsonObjectResponse = new JsonParser().parse(response.getContentAsString()).getAsJsonObject();
-        System.out.println(response.getContentAsString());
-
+//        System.out.println(response.getContentAsString());
 
         // Verify the results
         assertEquals(HttpStatus.OK.value(), response.getStatus());
@@ -311,26 +275,18 @@ class PersonControllerTest {
     @Test
     void testUpdatePerson_ReturnBadRequest() throws Exception {
         // Setup
-
-        // Configure PersonDaoImpl.findAll(...).
         Person testPerson = new Person("firstName", "lastName", "address", "city", 0, "phone", "email");
         final List<Person> personList = List.of(testPerson);
         when(mockPersonDao.findAll()).thenReturn(personList);
 
         // Run the test
-        JsonObject jsonObject = new JsonObject();
-//        jsonObject.addProperty("lastName", "las");
-//        jsonObject.addProperty("firstName", "");
-//        jsonObject.addProperty("email", "");
         final MockHttpServletResponse response = mockMvc.perform(put("/person")
                         .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andReturn().getResponse();
-//        JsonObject jsonObjectResponse = new JsonParser().parse(response.getContentAsString()).getAsJsonObject();
 
         // Verify the results
         assertEquals(HttpStatus.BAD_REQUEST.value(), response.getStatus());
-        //assertEquals("firstName@gmail.com", jsonObjectResponse.get("email").getAsString());
     }
 
     @Test
@@ -352,8 +308,6 @@ class PersonControllerTest {
     @Test
     void testUpdatePerson_ThrowsFileNotFoundException() throws Exception {
         // Setup
-
-        // Configure PersonDaoImpl.findAll(...).
         final List<Person> personList = List.of(new Person("firstName", "lastName", "address", "city", 0, "phone", "email"));
         when(mockPersonDao.findAll()).thenReturn(personList);
 
@@ -370,23 +324,9 @@ class PersonControllerTest {
 
     @Test
     void testDeletePerson() throws Exception {
-//        // Setup
-//        when(mockPersonDao.deletedPerson(new Person("firstName", "lastName", "address", "city", 0, "phone", "email"))).thenReturn(false);
-//
-//        // Run the test
-//        final MockHttpServletResponse response = mockMvc.perform(delete("/person")
-//                .content("content").contentType(MediaType.APPLICATION_JSON)
-//                .accept(MediaType.APPLICATION_JSON))
-//                .andReturn().getResponse();
-//
-//        // Verify the results
-//        assertEquals(HttpStatus.OK.value(), response.getStatus());
-//        assertEquals("expectedResponse", response.getContentAsString());
-
+        // Setup
         Person testPerson = new Person("firstName", "lastName", "address", "city", 0, "phone", "email");
         final List<Person> personList = List.of(testPerson);
-        //when(mockPersonDao.findAll()).thenReturn(personList);
-        //when(mockPersonDao.deletedPerson1(testPerson)).thenReturn(true);
         when(mockPersonDao.deletedPerson1(any(Person.class))).thenReturn(true);
 
         JsonObject jsonObject = new JsonObject();
@@ -397,14 +337,11 @@ class PersonControllerTest {
                         .content(jsonObject.toString()).contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andReturn().getResponse();
-
-       // JsonObject jsonObjectResponse = new JsonParser().parse(response.getContentAsString()).getAsJsonObject();
-        // System.out.println(jsonObject);
-        System.out.println(response.getContentAsString());
+//        System.out.println(jsonObject);
+//        System.out.println(response.getContentAsString());
         // Verify the results
         assertEquals(HttpStatus.OK.value(), response.getStatus());
-        //assertEquals("firstName@gmail.com", jsonObjectResponse.get("email").getAsString());
-        assertEquals("successfull operation", response.getContentAsString());
+        assertEquals("successful operation", response.getContentAsString());
     }
 
 
@@ -440,7 +377,7 @@ class PersonControllerTest {
                         .content(jsonObject.toString()).contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andReturn().getResponse();
-        System.out.println(response.getContentAsString());
+//        System.out.println(response.getContentAsString());
 
         // Verify the results
         assertEquals(HttpStatus.NOT_FOUND.value(), response.getStatus());
@@ -457,7 +394,7 @@ class PersonControllerTest {
     @Test
     public void testHealth2() {
         ArrayList<Person> personList = new ArrayList<Person>();
-        personList.add(new Person("Jane", "Doe", "42 Main St", "Oxford", 1, "4105551212", "jane.doe@example.org"));
+        personList.add(new Person("Simon", "Sou", "42 Main St", "New York", 1, "4105551212", "simonsou@gmail.com"));
         when(this.mockPersonDao.findAll()).thenReturn(personList);
         this.personController.health();
         verify(this.mockPersonDao).findAll();
@@ -466,8 +403,6 @@ class PersonControllerTest {
     @Test
     void testChildAlert() throws Exception {
         // Setup
-
-        // Configure PersonDaoImpl.findAll(...).
         final List<Person> personList = List.of(new Person("firstName", "lastName", "address", "city", 0, "phone", "email"));
         when(mockPersonDao.findAll()).thenReturn(personList);
 
