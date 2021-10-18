@@ -6,6 +6,7 @@ The application should provide information to Fire Stations about people who liv
 Prerequisites
 
 - Java 14
+- Spring Boot
 - Maven 4
 - Jacoco
 - Log4j
