@@ -30,7 +30,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 @AutoConfigureMockMvc
 @ContextConfiguration(classes = {FireStationController.class})
-//@ExtendWith(SpringExtension.class)
 @WebMvcTest(FireStationController.class)
 @Import(JacksonConfiguration.class)
 class FireStationControllerTest {

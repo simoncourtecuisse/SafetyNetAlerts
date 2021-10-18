@@ -52,3 +52,82 @@
 [DEBUG] 2021-10-14 10:53:19.525 [main] PersonControllerTest - Running with Spring Boot v2.4.2, Spring v5.3.3
 [INFO ] 2021-10-14 10:53:19.553 [main] PersonControllerTest - No active profile set, falling back to default profiles: default
 [INFO ] 2021-10-14 10:53:23.009 [main] PersonControllerTest - Started PersonControllerTest in 4.136 seconds (JVM running for 8.237)
+[INFO ] 2021-10-14 11:20:27.642 [main] FireStationControllerTest - Starting FireStationControllerTest using Java 14.0.1 on DESKTOP-0AQ2LDQ with PID 4252 (started by Simon in C:\Users\Simon\Desktop\FORMATION DEV JAVA\Projet 5\SafetyNetAlerts)
+[DEBUG] 2021-10-14 11:20:27.651 [main] FireStationControllerTest - Running with Spring Boot v2.4.2, Spring v5.3.3
+[INFO ] 2021-10-14 11:20:27.654 [main] FireStationControllerTest - No active profile set, falling back to default profiles: default
+[INFO ] 2021-10-14 11:20:32.404 [main] FireStationControllerTest - Started FireStationControllerTest in 5.743 seconds (JVM running for 11.534)
+[DEBUG] 2021-10-14 11:20:32.639 [main] FireStationController - Get request sent from the FireStationController to retrieve phone numbers
+[ERROR] 2021-10-14 11:20:32.646 [main] FireStationController - Fire Station was not found
+[DEBUG] 2021-10-14 11:20:32.996 [main] FireStationController - Put request sent from FireStationController
+[INFO ] 2021-10-14 11:20:32.997 [main] FireStationController - Fire Station updated successfully
+[DEBUG] 2021-10-14 11:20:33.070 [main] FireStationController - Delete request sent from FireStationController
+[ERROR] 2021-10-14 11:20:33.070 [main] FireStationController - Fire Station was not found
+[DEBUG] 2021-10-14 11:20:33.091 [main] FireStationController - Get request sent from FireStationController to retrieve the covered people by station
+[INFO ] 2021-10-14 11:20:33.102 [main] FireStationController - Person covered by the Fire Station successfully found
+[DEBUG] 2021-10-14 11:20:33.135 [main] FireStationController - Get request sent from FireStationController
+[INFO ] 2021-10-14 11:20:33.141 [main] FireStationController - Persons who live in 0 retrieved from database.
+[DEBUG] 2021-10-14 11:20:33.180 [main] FireStationController - Post request sent from FireStationController
+[ERROR] 2021-10-14 11:20:33.181 [main] FireStationController - Fire Station not added to database
+[DEBUG] 2021-10-14 11:20:33.202 [main] FireStationController - Put request sent from FireStationController
+[ERROR] 2021-10-14 11:20:33.202 [main] FireStationController - Fire Station was not found
+[DEBUG] 2021-10-14 11:20:33.219 [main] FireStationController - Delete request sent from FireStationController
+[INFO ] 2021-10-14 11:20:33.220 [main] FireStationController - Fire Station deleted successfully
+[DEBUG] 2021-10-14 11:20:33.235 [main] FireStationController - Get request sent from FireStationController to retrieve the covered people by station
+[ERROR] 2021-10-14 11:20:33.237 [main] FireStationController - Failed to find Fire Station because of a BAD REQUEST
+[DEBUG] 2021-10-14 11:20:33.268 [main] FireStationController - Get request sent from the FireStationController
+[INFO ] 2021-10-14 11:20:33.279 [main] FireStationController - Fire Station retrieved successfully
+[DEBUG] 2021-10-14 11:20:33.292 [main] FireStationController - Get request sent from FireStationController
+[DEBUG] 2021-10-14 11:20:33.314 [main] FireStationController - Post request sent from FireStationController
+[INFO ] 2021-10-14 11:20:33.317 [main] FireStationController - Fire Station added successfully to database
+[DEBUG] 2021-10-14 11:20:33.343 [main] FireStationController - Get request sent from the FireStationController to retrieve phone numbers
+[INFO ] 2021-10-14 11:20:33.345 [main] FireStationController - Phone numbers covered by the Fire Station retrieved successfully
+[INFO ] 2021-10-14 11:20:33.434 [main] MedicalRecordControllerTest - Starting MedicalRecordControllerTest using Java 14.0.1 on DESKTOP-0AQ2LDQ with PID 4252 (started by Simon in C:\Users\Simon\Desktop\FORMATION DEV JAVA\Projet 5\SafetyNetAlerts)
+[DEBUG] 2021-10-14 11:20:33.435 [main] MedicalRecordControllerTest - Running with Spring Boot v2.4.2, Spring v5.3.3
+[INFO ] 2021-10-14 11:20:33.437 [main] MedicalRecordControllerTest - No active profile set, falling back to default profiles: default
+[INFO ] 2021-10-14 11:20:34.542 [main] MedicalRecordControllerTest - Started MedicalRecordControllerTest in 1.162 seconds (JVM running for 13.672)
+[DEBUG] 2021-10-14 11:20:34.703 [main] MedicalRecordController - Put request sent from the MedicalRecordController
+[INFO ] 2021-10-14 11:20:34.704 [main] MedicalRecordController - Medical Records for 'null null' were updated successfully
+[DEBUG] 2021-10-14 11:20:35.208 [main] MedicalRecordController - Delete request sent from the MedicalRecordController
+[INFO ] 2021-10-14 11:20:35.210 [main] MedicalRecordController - Medical Records were deleted successfully
+[DEBUG] 2021-10-14 11:20:35.254 [main] MedicalRecordController - Put request sent from the MedicalRecordController
+[INFO ] 2021-10-14 11:20:35.255 [main] MedicalRecordController - Medical Records for 'firstName lastName' were updated successfully
+[DEBUG] 2021-10-14 11:20:35.312 [main] MedicalRecordController - Post request sent from the MedicalRecordController
+[DEBUG] 2021-10-14 11:20:35.339 [main] MedicalRecordController - Get request sent from the MedicalRecordController
+[INFO ] 2021-10-14 11:20:35.479 [main] PersonControllerTest - Starting PersonControllerTest using Java 14.0.1 on DESKTOP-0AQ2LDQ with PID 4252 (started by Simon in C:\Users\Simon\Desktop\FORMATION DEV JAVA\Projet 5\SafetyNetAlerts)
+[DEBUG] 2021-10-14 11:20:35.480 [main] PersonControllerTest - Running with Spring Boot v2.4.2, Spring v5.3.3
+[INFO ] 2021-10-14 11:20:35.481 [main] PersonControllerTest - No active profile set, falling back to default profiles: default
+[INFO ] 2021-10-14 11:20:36.829 [main] PersonControllerTest - Started PersonControllerTest in 1.428 seconds (JVM running for 15.96)
+[DEBUG] 2021-10-14 11:20:36.944 [main] PersonController - Delete request sent from the PersonController
+[ERROR] 2021-10-14 11:20:36.945 [main] PersonController - Failed to delete person because the person was not found
+[DEBUG] 2021-10-14 11:20:37.029 [main] PersonController - Get request sent from the PersonController
+[INFO ] 2021-10-14 11:20:37.029 [main] PersonController - Community email retrieved successfully
+[DEBUG] 2021-10-14 11:20:37.087 [main] PersonController - Get request sent from the PersonController to retrieve all persons from database
+[DEBUG] 2021-10-14 11:20:37.121 [main] PersonController - Get request sent from the PersonController to retrieve information belonging to 'serge lastName'
+[ERROR] 2021-10-14 11:20:37.121 [main] PersonController - Failed to retrieve person because the person was not found
+[DEBUG] 2021-10-14 11:20:37.187 [main] PersonController - Get request sent from the PersonController to retrieve information belonging to 'firstName lastName'
+[INFO ] 2021-10-14 11:20:37.188 [main] PersonController - 'firstName lastName' retrieved successfully
+[DEBUG] 2021-10-14 11:20:37.226 [main] PersonController - Put request sent from the PersonController
+[INFO ] 2021-10-14 11:20:37.227 [main] PersonController - 'firstName lastName' updated successfully
+[DEBUG] 2021-10-14 11:20:37.271 [main] PersonController - Get request sent from the PersonController to retrieve all persons from database
+[DEBUG] 2021-10-14 11:20:37.311 [main] PersonController - Delete request sent from the PersonController
+[INFO ] 2021-10-14 11:20:37.312 [main] PersonController - 'firstName lastName' deleted successfully
+[DEBUG] 2021-10-14 11:20:37.368 [main] PersonController - Post request sent from the PersonController
+[DEBUG] 2021-10-14 11:20:37.383 [main] PersonController - Get request sent from the PersonController to retrieve children living at address
+[INFO ] 2021-10-14 11:20:37.385 [main] PersonController - Children retrieved successfully
+[DEBUG] 2021-10-14 11:20:37.405 [main] PersonController - Get request sent from the PersonController
+[INFO ] 2021-10-14 11:20:37.405 [main] PersonController - Community email retrieved successfully
+[DEBUG] 2021-10-14 11:20:37.418 [main] PersonController - Get request sent from the PersonController to retrieve all persons from database
+[DEBUG] 2021-10-14 11:20:37.431 [main] PersonController - Get request sent from the PersonController
+[INFO ] 2021-10-14 11:20:37.432 [main] PersonController - Community email retrieved successfully
+[DEBUG] 2021-10-14 11:20:37.466 [main] PersonController - Get request sent from the PersonController to retrieve information belonging to 'firstName lastName'
+[INFO ] 2021-10-14 11:20:37.467 [main] PersonController - 'firstName lastName' retrieved successfully
+[DEBUG] 2021-10-14 11:20:37.485 [main] PersonController - Get request sent from the PersonController to retrieve children living at address
+[INFO ] 2021-10-14 11:20:37.485 [main] PersonController - Children retrieved successfully
+[INFO ] 2021-10-14 11:20:38.689 [main] SafetyNetAlertsApplicationTest - Starting SafetyNetAlertsApplicationTest using Java 14.0.1 on DESKTOP-0AQ2LDQ with PID 4252 (started by Simon in C:\Users\Simon\Desktop\FORMATION DEV JAVA\Projet 5\SafetyNetAlerts)
+[DEBUG] 2021-10-14 11:20:38.691 [main] SafetyNetAlertsApplicationTest - Running with Spring Boot v2.4.2, Spring v5.3.3
+[INFO ] 2021-10-14 11:20:38.693 [main] SafetyNetAlertsApplicationTest - No active profile set, falling back to default profiles: default
+[DEBUG] 2021-10-18 10:53:41.054 [main] SafetyNetAlertsApplication - SafetyNet Alerts started
+[INFO ] 2021-10-18 10:53:41.921 [main] SafetyNetAlertsApplication - Starting SafetyNetAlertsApplication using Java 14.0.1 on DESKTOP-0AQ2LDQ with PID 19024 (C:\Users\Simon\Desktop\FORMATION DEV JAVA\Projet 5\SafetyNetAlerts\target\classes started by Simon in C:\Users\Simon\Desktop\FORMATION DEV JAVA\Projet 5\SafetyNetAlerts)
+[DEBUG] 2021-10-18 10:53:41.927 [main] SafetyNetAlertsApplication - Running with Spring Boot v2.4.2, Spring v5.3.3
+[INFO ] 2021-10-18 10:53:41.928 [main] SafetyNetAlertsApplication - No active profile set, falling back to default profiles: default
+[INFO ] 2021-10-18 10:53:45.399 [main] SafetyNetAlertsApplication - Started SafetyNetAlertsApplication in 4.089 seconds (JVM running for 6.656)

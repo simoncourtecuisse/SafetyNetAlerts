@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.safetynet</groupId>
-    <artifactId>alerts</artifactId>
+    <artifactId>SafetyNetAlerts</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <name>alerts</name>
+    <name>SafetyNetAlerts</name>
     <description>Demo project for Spring Boot</description>
 
     <properties>

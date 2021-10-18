@@ -29,7 +29,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 
 @AutoConfigureMockMvc
 @ContextConfiguration(classes = {MedicalRecordController.class})
-//@ExtendWith(SpringExtension.class)
 @WebMvcTest(MedicalRecordController.class)
 @Import(JacksonConfiguration.class)
 class MedicalRecordControllerTest {

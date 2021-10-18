@@ -30,10 +30,8 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 
 
-//@SpringBootTest
 @AutoConfigureMockMvc
 @ContextConfiguration(classes = {PersonController.class})
-//@ExtendWith(SpringExtension.class)
 @WebMvcTest(PersonController.class)
 @Import(JacksonConfiguration.class)
 class PersonControllerTest {

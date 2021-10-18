@@ -42,7 +42,7 @@ public class Location {
 
     @Override
     public String toString() {
-        return "Location [address=" + address + ", city=" + city + ", zip=" + zip + "]";
+        return "[address=" + address + ", city=" + city + ", zip=" + zip + "]";
     }
 
     @Override
